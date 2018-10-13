@@ -1,10 +1,13 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3.data;
 
-import java.util.List;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+
+import java.util.List;
 
 
-@DAO
+@Dao
 public interface UtilisateurDAO {
 
     @Insert
