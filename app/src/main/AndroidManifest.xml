@@ -18,6 +18,7 @@
         </activity>
         <activity android:name=".ConnexionPermanent"></activity>
         <activity android:name=".Visiteur"></activity>
+        <activity android:name=".ProjetActivity"></activity>
     </application>
 
 </manifest>

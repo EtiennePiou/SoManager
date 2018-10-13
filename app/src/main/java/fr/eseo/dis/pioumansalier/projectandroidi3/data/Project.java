@@ -21,6 +21,13 @@ public class Project {
         this.students = students;
     }
 
+
+    public Project(int projectId, String title) {
+        this.projectId = projectId;
+        this.title = title;
+    }
+
+
     public int getProjectId() {
         return this.projectId;
     }
