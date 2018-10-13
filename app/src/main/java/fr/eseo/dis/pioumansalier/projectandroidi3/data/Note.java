@@ -1,5 +1,8 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3.data;
 
+import android.arch.persistence.room.Entity;
+
+@Entity
 public class Note {
     int idUser;
     String forename;

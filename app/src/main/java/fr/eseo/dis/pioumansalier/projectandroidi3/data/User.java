@@ -1,20 +1,26 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3.data;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 public class User {
+    @PrimaryKey
+    private int idUser;
+
     private String username;
     private String password;
     private String token;
     private int role;
-    private int userId;
     private String forename;
     private String surname;
 
-    User(String username, String password, String token, int role, int userId, String forename, String surnam){
+    User(String username, String password, String token, int role, int idUser, String forename, String surnam){
         this.setUsername(username);
         this.setPassword(password);
         this.setToken(token);
         this.setRole(role);
-        this.setUserId(userId);
+        this.setidUser(idUser);
         this.setForename(forename);
         this.setSurname(surnam);
     }
@@ -82,17 +88,17 @@ public class User {
 
     /**
      * Accessseur pour récupérer l'id de l'utilisateur
-     * @return userId
+     * @return idUser
      */
-    public int getUserId() {
-        return this.userId;
+    public int getidUser() {
+        return this.idUser;
     }
     /**
      * Mutateur pour modifier l'id de l'utilisateur
-     * @param userId
+     * @param idUser
      */
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setidUser(int idUser) {
+        this.idUser = idUser;
     }
 
     /**

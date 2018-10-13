@@ -1,9 +1,15 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3.data;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.util.ArrayList;
 
+@Entity
 public class Project {
-    int projectId;
+    @PrimaryKey
+    int idProject;
+
     String title;
     String describ;
     boolean poster;
@@ -11,8 +17,8 @@ public class Project {
     User supervisor;
     ArrayList<User> students;
 
-    public Project(int projectId, String title, String describ, boolean poster, int confid, User supervisor, ArrayList<User> students) {
-        this.projectId = projectId;
+    public Project(int idProject, String title, String describ, boolean poster, int confid, User supervisor, ArrayList<User> students) {
+        this.idProject = idProject;
         this.title = title;
         this.describ = describ;
         this.poster = poster;
@@ -21,8 +27,8 @@ public class Project {
         this.students = students;
     }
 
-    public int getProjectId() {
-        return this.projectId;
+    public int getidProject() {
+        return this.idProject;
     }
 
     public String getTitle() {
@@ -49,8 +55,8 @@ public class Project {
         return this.students;
     }
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
+    public void setidProject(int idProject) {
+        this.idProject = idProject;
     }
 
     public void setTitle(String title) {
