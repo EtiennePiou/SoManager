@@ -21,6 +21,7 @@
         <activity android:name=".Visiteur"></activity>
         <activity android:name=".ProjetActivity"></activity>
         <activity android:name=".Activity"></activity>
+        <activity android:name=".TestServiceWebActivity"></activity>
     </application>
 
 </manifest>

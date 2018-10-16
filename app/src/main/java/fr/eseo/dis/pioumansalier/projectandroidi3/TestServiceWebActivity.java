@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,20 +40,28 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
+import fr.eseo.dis.pioumansalier.projectandroidi3.data.User;
+
 
 public class TestServiceWebActivity extends AppCompatActivity {
 
     Button connexionButton;
     EditText loginEdit;
     EditText passwdEdit;
+    TextView errorConnexion;
+
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connexion_permanent);
 
+        Log.d("ERROR CEATION","creation fail !");
+
         loginEdit = (EditText)findViewById(R.id.editText);
         passwdEdit = (EditText)findViewById(R.id.editText2);
+        errorConnexion = (TextView)findViewById(R.id.errorConnexion);
 
         connexionButton = (Button) findViewById(R.id.button);
         connexionButton.setOnClickListener(new View.OnClickListener() {
@@ -63,22 +72,31 @@ public class TestServiceWebActivity extends AppCompatActivity {
     }
 
     public void clickConnexion() {
-        String username = loginEdit.getText().toString();
-        String password = passwdEdit.getText().toString();
+        final String username = loginEdit.getText().toString();
+        final String password = passwdEdit.getText().toString();
 
-        final String url = "https://192.168.4.248/www/pfe/webservice.php?q=LOGON&user="+username+
+        final String url = "https://192.168.4.248/pfe/webservice.php?q=LOGON&user="+username+
                 "&pass="+password;
 
         RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
 
 
-        StringRequest s = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String s) {
+                    public void onResponse(JSONObject s) {
 
-                        Log.e("RESULT",s);
-
+                        Log.e("RESULT", String.valueOf(s));
+                        try {
+                            if(s.getString("result").equals("OK")) {
+                                String token = s.getString("token");
+                                user = new User(username, password, token);
+                            }else{
+                                errorConnexion.setText("Erreur de connexion");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
 
@@ -123,7 +141,7 @@ public class TestServiceWebActivity extends AppCompatActivity {
                 public boolean verify(String hostname, SSLSession session) {
 
                     Log.e("CipherUsed", session.getCipherSuite());
-                    return hostname.compareTo("192.168.1.10")==0; //The Hostname of your server
+                    return hostname.compareTo("192.168.4.248")==0; //The Hostname of your server
 
                 }
             };

@@ -15,7 +15,7 @@ public class User {
     private String forename;
     private String surname;
 
-    User(String username, String password, String token, int role, int idUser, String forename, String surnam){
+    public User(String username, String password, String token, int role, int idUser, String forename, String surnam){
         this.setUsername(username);
         this.setPassword(password);
         this.setToken(token);
@@ -23,6 +23,10 @@ public class User {
         this.setidUser(idUser);
         this.setForename(forename);
         this.setSurname(surnam);
+    }
+
+    public User(String username, String password, String token){
+        this(username,password,token,-1,-1,"","");
     }
 
     /* Accesseurs et Mutateurs */
