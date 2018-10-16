@@ -19,16 +19,7 @@ public class Visiteur extends AppCompatActivity {
         String messsage = intent.getStringExtra(MainActivity.MESSAGE);
         TextView textView = new TextView(this);
         textView.setText(messsage);
-        setContentView(R.layout.activity_connexion_permanent);
 
-        final Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-                                          startActivity(new Intent (getApplicationContext(),ProjetActivity.class));
-                                      }
-                                  }
-        );
 
     }
 

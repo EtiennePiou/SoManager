@@ -18,9 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConnexionPermanent"></activity>
         <activity android:name=".Visiteur"></activity>
         <activity android:name=".ProjetActivity"></activity>
+        <activity android:name=".Activity"></activity>
     </application>
 
 </manifest>
