@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     TextView errorConnexion;
 
     User user;
+    public static final String USER = "user";
 
 public static final String MESSAGE="android";
     @Override
@@ -76,7 +77,9 @@ public static final String MESSAGE="android";
                                 String token = s.getString("token");
                                 user = new User(username, password, token);
                                 errorConnexion.setText("");
-                                startActivity(new Intent (getApplicationContext(),Activity.class).putExtra("userId",user.getidUser()));
+                                Intent intent = new Intent (getApplicationContext(),Activity.class);
+                                intent.putExtra(USER, user);
+                                startActivity(intent);
                             }else{
                                 errorConnexion.setText("Erreur de connexion");
                             }
