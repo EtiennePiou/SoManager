@@ -1,10 +1,16 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3.data;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.util.ArrayList;
 import java.util.Date;
 
+@Entity
 public class Jury {
+    @PrimaryKey
     int idJury;
+
     Date date;
     ArrayList<User> evaluants;
     ArrayList<Project> projets;
