@@ -39,6 +39,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
+import fr.eseo.dis.pioumansalier.projectandroidi3.Util.ServiceWebUtil;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -77,7 +78,10 @@ public static final String MESSAGE="android";
         final String url = "https://192.168.4.248/pfe/webservice.php?q=LOGON&user="+username+
                 "&pass="+password;
 
-        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, getSocketFactory()));
+        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
+
+
+        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
 
 
         JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -108,72 +112,5 @@ public static final String MESSAGE="android";
                 } );
 
         rq.add(s);
-
-    }
-
-    private SSLSocketFactory getSocketFactory() {
-
-        CertificateFactory cf = null;
-        try {
-            cf = CertificateFactory.getInstance("X.509");
-            InputStream caInput = getResources().openRawResource(R.raw.root);
-            Certificate ca;
-            try {
-                ca = cf.generateCertificate(caInput);
-                Log.e("CERT", "ca=" + ((X509Certificate) ca).getSubjectDN());
-            } finally {
-                caInput.close();
-            }
-
-
-            String keyStoreType = KeyStore.getDefaultType();
-            KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-            keyStore.load(null, null);
-            keyStore.setCertificateEntry("ca", ca);
-
-
-            String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
-            TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
-            tmf.init(keyStore);
-
-
-            HostnameVerifier hostnameVerifier = new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-
-                    Log.e("CipherUsed", session.getCipherSuite());
-                    return hostname.compareTo("192.168.4.248")==0; //The Hostname of your server
-
-                }
-            };
-
-
-            HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
-            SSLContext context = null;
-            context = SSLContext.getInstance("TLS");
-
-            context.init(null, tmf.getTrustManagers(), null);
-            HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
-
-            SSLSocketFactory sf = context.getSocketFactory();
-
-
-            return sf;
-
-        } catch (CertificateException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        }
-
-        return  null;
     }
 }
