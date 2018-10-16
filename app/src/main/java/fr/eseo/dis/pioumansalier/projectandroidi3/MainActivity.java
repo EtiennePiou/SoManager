@@ -12,6 +12,7 @@ public static final String MESSAGE="android";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
     public void visitorclient(View view){
         Intent intent = new Intent (this,Visiteur.class);
