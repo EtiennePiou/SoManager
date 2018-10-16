@@ -1,14 +1,10 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.adapter.ProjectAdapter;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.src.DummyData;
