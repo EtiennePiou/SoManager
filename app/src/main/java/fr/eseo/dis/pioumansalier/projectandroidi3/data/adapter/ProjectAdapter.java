@@ -66,6 +66,12 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         final Project project = projets.get(position);
         holder.projectId.setText(String.valueOf(project.getProjectId()));
         holder.title.setText(project.getTitle());
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                projectActivity.clickProjectCard(project);
+            }
+        });
     }
 
 }

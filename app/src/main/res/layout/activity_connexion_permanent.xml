@@ -78,7 +78,4 @@
         android:layout_toLeftOf="@+id/connexion_permanent_textview"
         android:layout_toStartOf="@+id/connexion_permanent_textview"
         />
-
-
-
 </RelativeLayout>

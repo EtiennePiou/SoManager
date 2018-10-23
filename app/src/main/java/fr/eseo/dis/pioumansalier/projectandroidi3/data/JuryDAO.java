@@ -13,4 +13,7 @@ public interface JuryDAO {
 
     @Query("SELECT * FROM jury WHERE idjury = :idJury")
     public Jury findJuryFromId(int idJury);
+
+    @Query("SELECT idJury,date FROM jury WHERE idjury = :idJury")
+    public Jury findJuryAndDateFromId(int idJury);
 }

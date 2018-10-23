@@ -29,7 +29,7 @@ import fr.eseo.dis.pioumansalier.projectandroidi3.data.adapter.ProjectAdapter;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.src.DummyData;
 
 public class ProjetActivity  extends AppCompatActivity {
-
+    public static final String PROJET_EXTRA = "projet_extra";
     private ProjectAdapter projectAdapter;
     TextView errorConnexion;
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,11 @@ public class ProjetActivity  extends AppCompatActivity {
     private void loadProjectDetails(){
         List<Project> listProjects = getProjects();
         projectAdapter.setProjects(DummyData.getProjects());
+    }
+    public void clickProjectCard(Project project) {
+        Intent intent = new Intent(this, DescriptionActivity.class);
+        intent.putExtra(PROJET_EXTRA, project);
+        startActivity(intent);
     }
 
     private List<Project> getProjects(){

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="6dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/project_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:maxLines="2"
+            android:minLines="2"
+            android:text="Projet1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="24sp" />
+            <TextView
+                android:id="@+id/project_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:text="Project sur le développement d'apps"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/project_confidentiality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:text="Non Condidentiel"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
+        <TextView
+            android:id="@+id/project_supervisorforename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:maxLines="2"
+            android:text="Supervisor"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+        <TextView
+        android:id="@+id/project_supervisorsurame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:maxLines="2"
+        android:text="Supervisor"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/project_student"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingRight="8dp"
+            android:text="Liste d'étudiants"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/android_robot"
+        >
+    </ImageView>
+
+
+</LinearLayout>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

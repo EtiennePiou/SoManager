@@ -3,6 +3,7 @@ package fr.eseo.dis.pioumansalier.projectandroidi3.data;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -20,6 +21,15 @@ public class Jury {
         this.setDate(date);
         this.setEvaluants(evaluants);
         this.setProjets(projets);
+    }
+
+    public Jury(int idJury,ArrayList<Project> projets) {
+        this.setIdJury(idJury);
+        this.projets=projets;
+    }
+    public Jury(int idJury) {
+        this.setIdJury(idJury);
+
     }
 
     public int getIdJury() {
