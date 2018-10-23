@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import java.util.*;
 
 import fr.eseo.dis.pioumansalier.projectandroidi3.Util.ServiceWebUtil;
+import fr.eseo.dis.pioumansalier.projectandroidi3.data.Jury;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.Project;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.User;
 
@@ -31,11 +32,14 @@ public class Activity extends AppCompatActivity {
 
     public User  user;
     public static final String PROJECTS = "projets";
+    public static final String JURIES = "juries";
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Button buttonProjet = findViewById(R.id.Projets);
+        final Button buttonJury = findViewById(R.id.Juries);
 
         Intent intent = getIntent();
         Bundle data = intent.getExtras();
@@ -43,17 +47,15 @@ public class Activity extends AppCompatActivity {
 
         buttonProjet.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                clickConnexion();
+                clickProject();
             }
         });
-        final Button juries = findViewById(R.id.Juries);
-        juries.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-                                          startActivity(new Intent (getApplicationContext(),JuriesActivity.class));
-                                      }
-                                  }
-        );
+
+        buttonJury.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                clickJury();
+            }
+        });
         final Button notes = findViewById(R.id.Notes);
         notes.setOnClickListener(new View.OnClickListener() {
                                      @Override
@@ -64,7 +66,7 @@ public class Activity extends AppCompatActivity {
         );
     }
 
-    public void clickConnexion() {
+    public void clickProject() {
 
         final String url = "https://192.168.4.248/pfe/webservice.php?q=LIPRJ&user="+user.getUsername()+"&token="+user.getToken();
 
@@ -114,6 +116,76 @@ public class Activity extends AppCompatActivity {
                                 intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) projects);
 
 
+
+                                startActivity(intent);
+                            }else{
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.e("RESULTfailder",volleyError.getMessage()); }
+                } );
+        rq.add(s);
+    }
+
+    public void clickJury(){
+
+        final String url = "https://192.168.4.248/pfe/webservice.php?q=MYJUR&user="+user.getUsername()+"&token="+user.getToken();
+
+        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
+
+
+        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
+
+
+        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject s) {
+
+                        Log.e("RESULT", String.valueOf(s));
+                        try {
+                            if(s.getString("result").equals("OK")) {
+                                JSONArray juriesJSON = s.getJSONArray("juries");
+                                List<Jury> juries = new ArrayList<>();
+                                for(int i=0; i < juriesJSON.length(); i++ ){
+
+                                    JSONObject juryJSON = juriesJSON.getJSONObject(i);
+
+                                    int juryId = juryJSON.getInt("idJury");
+                                    String date = juryJSON.getString("date");
+
+                                    JSONObject infoJSON = juryJSON.getJSONObject("info");
+                                    JSONArray projectsJSON = infoJSON.getJSONArray("projects");
+
+                                    List<Project> projects = new ArrayList<Project>();
+                                    for(int j=0; j<projectsJSON.length(); j++){
+                                        JSONObject projectJSON = projectsJSON.getJSONObject(j);
+                                        int projectId = projectJSON.getInt("projectId");
+                                        String title = projectJSON.getString("title");
+                                        int confid = projectJSON.getInt("confid");
+                                        Boolean poster = projectJSON.getBoolean("poster");
+                                        JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
+                                        String forename = supervisorJSON.getString("forename");
+                                        String surname = supervisorJSON.getString("surname");
+                                        projects.add(new Project(projectId, title, "", poster,
+                                                confid, forename, surname, null));
+                                    }
+
+                                    juries.add(new Jury(juryId, date, null, projects));
+                                }
+
+                                Log.d("TEST ", juries.get(0).getProjets().get(0).getTitle());
+
+                                Intent intent = new Intent(getApplicationContext(),JuriesActivity.class);
+                                intent.putParcelableArrayListExtra(JURIES, (ArrayList<? extends Parcelable>) juries);
 
                                 startActivity(intent);
                             }else{
