@@ -29,7 +29,9 @@ import fr.eseo.dis.pioumansalier.projectandroidi3.data.adapter.ProjectAdapter;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.src.DummyData;
 
 public class ProjetActivity  extends AppCompatActivity {
-    public static final String PROJET_EXTRA = "projet_extra";
+
+    public static final String PROJET_EXTRA = "test";
+
     private ProjectAdapter projectAdapter;
     TextView errorConnexion;
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,21 +48,16 @@ public class ProjetActivity  extends AppCompatActivity {
 
         projectAdapter= new ProjectAdapter(this);
         recycler.setAdapter(projectAdapter);
-        loadProjectDetails();
+        //loadProjectDetails();
 
 
     }
     private void loadProjectDetails(){
-        List<Project> listProjects = getProjects();
+        getProjects();
         projectAdapter.setProjects(DummyData.getProjects());
     }
-    public void clickProjectCard(Project project) {
-        Intent intent = new Intent(this, DescriptionActivity.class);
-        intent.putExtra(PROJET_EXTRA, project);
-        startActivity(intent);
-    }
 
-    private List<Project> getProjects(){
+    private void getProjects(){
 
         Intent intent = getIntent();
         Bundle data = intent.getExtras();
@@ -100,4 +97,12 @@ public class ProjetActivity  extends AppCompatActivity {
                 } );
         rq.add(s);
     }
+
+
+
+
+    public void clickProjectCard(Project project){
+
+    }
+
 }

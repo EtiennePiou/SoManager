@@ -2,6 +2,7 @@ package fr.eseo.dis.pioumansalier.projectandroidi3;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -65,21 +66,24 @@ public class Activity extends AppCompatActivity {
                         Log.e("RESULT", String.valueOf(s));
                         try {
                             if(s.getString("result").equals("OK")) {
-                                JSONObject projectsJSON = s.getJSONObject("projects");
-                                List<Project> projects = new ArrayList<Project>();
-                                while( projectsJSON.keys().hasNext()){
+                                JSONArray projectsJSON = s.getJSONArray("projects");
+                                List<Project> projects = new ArrayList<>();
+                                for(int i=0; i < projectsJSON.length(); i++ ){
 
-                                    int projectId = projectsJSON.getInt("projectId");
-                                    String title = projectsJSON.getString("title");
-                                    String descrip = projectsJSON.getString("descrip");
-                                    Boolean poster = projectsJSON.getBoolean("poster");
-                                    int confid = projectsJSON.getInt("confid");
-                                    String forename = projectsJSON.getString("forename");
-                                    String surname = projectsJSON.getString("surname");
+                                    JSONObject projectJSON = projectsJSON.getJSONObject(i);
+
+                                    int projectId = projectJSON.getInt("projectId");
+                                    String title = projectJSON.getString("title");
+                                    String descrip = projectJSON.getString("descrip");
+                                    Boolean poster = projectJSON.getBoolean("poster");
+                                    int confid = projectJSON.getInt("confid");
+                                    JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
+                                    String forename = supervisorJSON.getString("forename");
+                                    String surname = supervisorJSON.getString("surname");
                                     List<User> students = new ArrayList<User>();
-                                    JSONArray listStudents = projectsJSON.getJSONArray("students");
-                                    for(int i=0; i<listStudents.length(); i++){
-                                        JSONObject student = listStudents.getJSONObject(i);
+                                    JSONArray listStudents = projectJSON.getJSONArray("students");
+                                    for(int j=0; j<listStudents.length(); j++){
+                                        JSONObject student = listStudents.getJSONObject(j);
                                         students.add(new User(student.getInt("userId"),
                                                 student.getString("forename"),
                                                 student.getString("surname")
@@ -90,8 +94,8 @@ public class Activity extends AppCompatActivity {
                                             confid, forename, surname, students));
                                 }
 
-                                Intent intent = new Intent (getApplicationContext(),Activity.class);
-                                intent.putExtra(PROJECTS, projects);
+                                Intent intent = new Intent(getApplicationContext(),ProjetActivity.class);
+                                intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) projects);
                                 startActivity(intent);
                             }else{
 

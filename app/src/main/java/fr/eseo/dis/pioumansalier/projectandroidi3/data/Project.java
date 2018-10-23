@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Project implements Parcelable{
+public class Project implements Parcelable {
         public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>(){
             public Project createFromParcel(Parcel source){
                 return new Project(source);
@@ -44,7 +44,7 @@ public class Project implements Parcelable{
         this.title = title;
     }
 
-    @Ignore
+
     public Project(Parcel in) {
         this.setProjectId(in.readInt());
         this.setTitle(in.readString());
