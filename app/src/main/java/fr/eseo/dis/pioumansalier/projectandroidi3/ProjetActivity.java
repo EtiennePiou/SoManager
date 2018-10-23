@@ -47,9 +47,7 @@ public class ProjetActivity  extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(llm);
         Intent intent = getIntent();
-        Bundle data = intent.getExtras();
-        final List<Project> project = (ArrayList<Project>) data.getParcelable(Activity.PROJECTS);
-        System.out.print(project.get(0));
+        ArrayList<Project> project = intent.getParcelableArrayListExtra(Activity.PROJECTS);
         projectAdapter= new ProjectAdapter(this);
         recycler.setAdapter(projectAdapter);
         loadProjectDetails();
@@ -58,8 +56,7 @@ public class ProjetActivity  extends AppCompatActivity {
     }
     private void loadProjectDetails(){
         Intent intent = getIntent();
-        Bundle data = intent.getExtras();
-        final List<Project> project =  data.getParcelable(Activity.PROJECTS);
+        ArrayList<Project> project = intent.getParcelableArrayListExtra(Activity.PROJECTS);
         projectAdapter.setProjects(project);
 
 

@@ -112,6 +112,9 @@ public class Activity extends AppCompatActivity {
 
                                 Intent intent = new Intent(getApplicationContext(),ProjetActivity.class);
                                 intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) projects);
+
+
+
                                 startActivity(intent);
                             }else{
 
