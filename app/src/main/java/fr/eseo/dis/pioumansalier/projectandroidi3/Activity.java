@@ -16,6 +16,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,17 +66,30 @@ public class Activity extends AppCompatActivity {
                         try {
                             if(s.getString("result").equals("OK")) {
                                 JSONObject projectsJSON = s.getJSONObject("projects");
-                                ArrayList<Project> projects = new ArrayList<Project>();
+                                List<Project> projects = new ArrayList<Project>();
                                 while( projectsJSON.keys().hasNext()){
 
-                                    projects.add(new Project(projectsJSON.getString("projectId"),
-                                            projectsJSON.getString("title"),
-                                            projectsJSON.getString("descrip"),
-                                            projectsJSON.getString("poster"),
-                                            new user(projectsJSON.getString("supervisor")),
+                                    int projectId = projectsJSON.getInt("projectId");
+                                    String title = projectsJSON.getString("title");
+                                    String descrip = projectsJSON.getString("descrip");
+                                    Boolean poster = projectsJSON.getBoolean("poster");
+                                    int confid = projectsJSON.getInt("confid");
+                                    String forename = projectsJSON.getString("forename");
+                                    String surname = projectsJSON.getString("surname");
+                                    List<User> students = new ArrayList<User>();
+                                    JSONArray listStudents = projectsJSON.getJSONArray("students");
+                                    for(int i=0; i<listStudents.length(); i++){
+                                        JSONObject student = listStudents.getJSONObject(i);
+                                        students.add(new User(student.getInt("userId"),
+                                                student.getString("forename"),
+                                                student.getString("surname")
+                                        ));
+                                    }
 
-                                            )
+                                    projects.add(new Project(projectId, title, descrip, poster,
+                                            confid, forename, surname, students));
                                 }
+
                                 Intent intent = new Intent (getApplicationContext(),Activity.class);
                                 intent.putExtra(PROJECTS, projects);
                                 startActivity(intent);

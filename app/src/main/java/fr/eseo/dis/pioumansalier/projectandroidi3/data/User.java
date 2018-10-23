@@ -42,6 +42,10 @@ public class User implements Parcelable{
         this(username,password,token,-1,-1,"","");
     }
 
+    public User(int userId, String forename, String surname){
+        this("","","",-1,userId,forename,surname);
+    }
+
     @Ignore
     public User(Parcel in){
         this.setUsername(in.readString());

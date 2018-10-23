@@ -1,23 +1,40 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3.data;
 
-import java.util.ArrayList;
+import android.arch.persistence.room.Ignore;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Project {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Project implements Parcelable{
+        public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>(){
+            public Project createFromParcel(Parcel source){
+                return new Project(source);
+            }
+
+            public Project[] newArray(int size){
+                return new Project[size];
+            }
+        };
+
     int projectId;
     String title;
     String describ;
     boolean poster;
     int confid;
-    User supervisor;
-    ArrayList<User> students;
+    String supervisorforename;
+    String supervisorsurname;
+    List<User> students;
 
-    public Project(int projectId, String title, String describ, boolean poster, int confid, User supervisor, ArrayList<User> students) {
+    public Project(int projectId, String title, String describ, boolean poster, int confid, String supervisorforename, String supervisorsurname, List<User> students) {
         this.projectId = projectId;
         this.title = title;
         this.describ = describ;
         this.poster = poster;
         this.confid = confid;
-        this.supervisor = supervisor;
+        this.supervisorforename = supervisorforename;
+        this.supervisorsurname = supervisorsurname;
         this.students = students;
     }
 
@@ -27,6 +44,20 @@ public class Project {
         this.title = title;
     }
 
+    @Ignore
+    public Project(Parcel in) {
+        this.setProjectId(in.readInt());
+        this.setTitle(in.readString());
+        this.setDescrib(in.readString());
+        this.setPoster(Boolean.valueOf(in.readString()));
+        this.setConfid(in.readInt());
+        this.setSupervisorforename(in.readString());
+        this.setSupervisorsurname(in.readString());
+
+        List<User> liststudent = new ArrayList<User>();
+        in.readTypedList(liststudent, User.CREATOR);
+        this.setStudents(liststudent);
+    }
 
     public int getProjectId() {
         return this.projectId;
@@ -48,11 +79,15 @@ public class Project {
         return this.confid;
     }
 
-    public User getSupervisor() {
-        return this.supervisor;
+    public String getSupervisorforename() {
+        return supervisorforename;
     }
 
-    public ArrayList<User> getStudents() {
+    public String getSupervisorsurname() {
+        return supervisorsurname;
+    }
+
+    public List<User> getStudents() {
         return this.students;
     }
 
@@ -76,11 +111,32 @@ public class Project {
         this.confid = confid;
     }
 
-    public void setSupervisor(User supervisor) {
-        this.supervisor = supervisor;
+    public void setSupervisorforename(String supervisorforename) {
+        this.supervisorforename = supervisorforename;
     }
 
-    public void setStudents(ArrayList<User> students) {
+    public void setSupervisorsurname(String supervisorsurname) {
+        this.supervisorsurname = supervisorsurname;
+    }
+
+    public void setStudents(List<User> students) {
         this.students = students;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.projectId);
+        dest.writeString(this.title);
+        dest.writeString(this.describ);
+        dest.writeString(Boolean.toString(this.poster));
+        dest.writeInt(this.confid);
+        dest.writeString(this.supervisorforename);
+        dest.writeString(this.supervisorsurname);
+        dest.writeTypedList(this.students);
     }
 }
