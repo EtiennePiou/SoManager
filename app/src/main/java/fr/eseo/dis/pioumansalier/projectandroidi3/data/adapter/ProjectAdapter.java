@@ -15,7 +15,7 @@ import fr.eseo.dis.pioumansalier.projectandroidi3.data.Project;
 import fr.eseo.dis.pioumansalier.projectandroidi3.ProjetActivity;
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
 
-    private List<Project> projets;
+    private List<Project> projets= new ArrayList<Project>();
 
     private ProjetActivity projectActivity;
 

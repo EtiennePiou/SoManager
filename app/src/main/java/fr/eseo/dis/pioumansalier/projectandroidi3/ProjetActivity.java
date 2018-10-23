@@ -20,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.eseo.dis.pioumansalier.projectandroidi3.Util.ServiceWebUtil;
@@ -30,7 +31,7 @@ import fr.eseo.dis.pioumansalier.projectandroidi3.data.src.DummyData;
 
 public class ProjetActivity  extends AppCompatActivity {
 
-    public static final String PROJET_EXTRA = "test";
+    public static final String PROJET_EXTRA = "project";
 
     private ProjectAdapter projectAdapter;
     TextView errorConnexion;
@@ -45,64 +46,29 @@ public class ProjetActivity  extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(llm);
-
+        Intent intent = getIntent();
+        Bundle data = intent.getExtras();
+        final List<Project> project = (ArrayList<Project>) data.getParcelable(Activity.PROJECTS);
+        System.out.print(project.get(0));
         projectAdapter= new ProjectAdapter(this);
         recycler.setAdapter(projectAdapter);
-        //loadProjectDetails();
+        loadProjectDetails();
 
 
     }
     private void loadProjectDetails(){
-        getProjects();
-        projectAdapter.setProjects(DummyData.getProjects());
-    }
-
-    private void getProjects(){
-
         Intent intent = getIntent();
         Bundle data = intent.getExtras();
-       final User user = (User) data.getParcelable(MainActivity.USER);
-        final String url = "https://192.168.4.248/pfe/webservice.php?q=LIPRJ&user="+user.getUsername()+"&token="+user.getToken();
-
-        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
+        final List<Project> project =  data.getParcelable(Activity.PROJECTS);
+        projectAdapter.setProjects(project);
 
 
-        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
-
-
-        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject s) {
-
-                        Log.e("RESULT", String.valueOf(s));
-                        try {
-                            if(s.getString("result").equals("OK")) {
-                                String token = s.getString("token");
-                                errorConnexion.setText("");
-                                startActivity(new Intent(getApplicationContext(),Activity.class).putExtra("userId",user.getidUser()));
-                            }else{
-                                errorConnexion.setText("Erreur de connexion");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Log.e("RESULTfailder",volleyError.getMessage()); }
-                } );
-        rq.add(s);
     }
 
-
-
-
     public void clickProjectCard(Project project){
-
+        Intent intent = new Intent(this, DescriptionActivity.class);
+        intent.putExtra(PROJET_EXTRA, project);
+        startActivity(intent);
     }
 
 }

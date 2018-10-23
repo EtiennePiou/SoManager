@@ -46,6 +46,22 @@ public class Activity extends AppCompatActivity {
                 clickConnexion();
             }
         });
+        final Button juries = findViewById(R.id.Juries);
+        juries.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View v) {
+                                          startActivity(new Intent (getApplicationContext(),JuriesActivity.class));
+                                      }
+                                  }
+        );
+        final Button notes = findViewById(R.id.Notes);
+        notes.setOnClickListener(new View.OnClickListener() {
+                                     @Override
+                                     public void onClick(View v) {
+                                         startActivity(new Intent (getApplicationContext(),NotesActivity.class));
+                                     }
+                                 }
+        );
     }
 
     public void clickConnexion() {
