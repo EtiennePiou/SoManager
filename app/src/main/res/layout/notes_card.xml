@@ -19,12 +19,22 @@
                 android:id="@+id/tv_notation_prenom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:minLines="2"
                 android:maxLines="2"
                 android:padding="2dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:text="Bob"/>
+                android:text="Project"/>
+            <TextView
+                android:id="@+id/tv_notation_prenom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:minLines="2"
+                android:maxLines="2"
+                android:padding="2dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Project"/>
         </LinearLayout>
         <TextView
             android:id="@+id/tv_notation_note"
