@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -25,6 +26,7 @@ import java.util.*;
 
 import fr.eseo.dis.pioumansalier.projectandroidi3.Util.ServiceWebUtil;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.Jury;
+import fr.eseo.dis.pioumansalier.projectandroidi3.data.Note;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.Project;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.User;
 
@@ -40,6 +42,7 @@ public class Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final Button buttonProjet = findViewById(R.id.Projets);
         final Button buttonJury = findViewById(R.id.Juries);
+        final Button buttonNote = findViewById(R.id.Notes);
 
         Intent intent = getIntent();
         Bundle data = intent.getExtras();
@@ -56,14 +59,12 @@ public class Activity extends AppCompatActivity {
                 clickJury();
             }
         });
-        final Button notes = findViewById(R.id.Notes);
-        notes.setOnClickListener(new View.OnClickListener() {
-                                     @Override
-                                     public void onClick(View v) {
-                                         startActivity(new Intent (getApplicationContext(),NotesActivity.class));
-                                     }
-                                 }
-        );
+
+        buttonNote.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                clickPoster();
+            }
+        });
     }
 
     public void clickProject() {
@@ -204,4 +205,92 @@ public class Activity extends AppCompatActivity {
                 } );
         rq.add(s);
     }
+
+    public void clickPoster() {
+
+        final String url = "https://192.168.4.248/pfe/webservice.php?q=POSTR&user="+user.getUsername()
+                + "&proj=" + "4"
+                + "&style=" + "FULL"
+                + "&token="+user.getToken();
+        //FULL, THUMB, FLB64, THB64
+
+        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
+
+
+        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
+
+
+        StringRequest  s = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            public void onResponse(String response) {
+                Log.d("Image ",response);
+            }
+        },new  Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("ErrorResponse ", "erreur image");
+            }
+        });
+
+        rq.add(s);
+    }
+
+//    public void clickNote(){
+//
+//        final String url = "https://192.168.4.248/pfe/webservice.php?q=NOTES&user="+user.getUsername()
+//                +"&proj=" + "4"
+//                +"&token=" + user.getToken();
+//
+//        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
+//
+//
+//        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
+//
+//
+//        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject s) {
+//
+//                        Log.e("RESULT", String.valueOf(s));
+//                        try {
+//                            if(s.getString("result").equals("OK")) {
+//                                JSONArray notesJSONarray = s.getJSONArray("notes");
+//                                List<Note> notes = new ArrayList<>();
+//                                for(int i=0; i < notesJSONarray.length(); i++ ){
+//
+//                                    JSONObject noteJSON = notesJSONarray.getJSONObject(i);
+//
+//                                    int userId = noteJSON.getInt("userId");
+//                                    String forename = noteJSON.getString("forename");
+//                                    String surname = noteJSON.getString("surname");
+//
+//                                    Double mynote = noteJSON.getDouble("mynote");
+//                                    Double avgnote = noteJSON.getDouble("avgnote");
+//
+//                                    notes.add(new Note());
+//                                }
+//
+//                                Log.d("TEST ", juries.get(0).getProjets().get(0).getTitle());
+//
+//                                Intent intent = new Intent(getApplicationContext(),JuriesActivity.class);
+//                                intent.putParcelableArrayListExtra(JURIES, (ArrayList<? extends Parcelable>) juries);
+//
+//                                startActivity(intent);
+//                            }else{
+//
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                },
+//
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError volleyError) {
+//                        Log.e("RESULTfailder",volleyError.getMessage()); }
+//                } );
+//        rq.add(s);
+//    }
+
 }
