@@ -35,7 +35,7 @@ public class NotesStudent extends AppCompatActivity {
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             Intent intent = getIntent();
             final String note = intent.getStringExtra(NotesActivity.NOTE);
-            final User user = intent.getParcelableExtra(NotesActivity.USER);
+            user = intent.getParcelableExtra(NotesActivity.USER);
             final String projets = intent.getStringExtra(NotesActivity.PROJECT);
             myNote=findViewById(R.id.myNote);
             myNote.setText(note);

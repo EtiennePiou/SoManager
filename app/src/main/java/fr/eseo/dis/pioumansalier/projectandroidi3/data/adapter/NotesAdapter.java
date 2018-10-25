@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -51,7 +52,7 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
             private final TextView mynote;
             private final TextView avgnote;
             private final TextView project;
-
+            private final Button button;
 
 
             public NoteViewHolder(View view) {
@@ -62,6 +63,7 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
                 mynote = view.findViewById(R.id.myNote);
                 avgnote = view.findViewById(R.id.avgNote);
                 project = view.findViewById(R.id.idproject);
+                button = view.findViewById(R.id.button);
 
 
 
@@ -91,7 +93,7 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
             holder.mynote.setText(String.valueOf(note.getMynote()));
             holder.project.setText("Id du projet : "+projects);
             holder.avgnote.setText("Note moyenne : "+String.valueOf(note.getAvgnote()));
-            holder.view.setOnClickListener(new View.OnClickListener() {
+            holder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     notesActivity.validate(note, projects);
