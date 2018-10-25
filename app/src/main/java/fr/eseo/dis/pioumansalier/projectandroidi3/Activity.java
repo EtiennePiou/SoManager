@@ -59,27 +59,30 @@ public class Activity extends AppCompatActivity {
         final Button buttonNote = findViewById(R.id.Notes);
 
         //COM:
-        //final Button button
+        final Button buttonPseudoJury = findViewById(R.id.PseudoJury);
+        final Button buttonRecupererNotes = findViewById(R.id.RecupererNotes);
 
         //VISITEUR:
+        final Button buttonProjetsVisiteurs = findViewById(R.id.ProjetsVisiteurs);
 
         Intent intent = getIntent();
         Bundle data = intent.getExtras();
         user = (User) data.getParcelable(MainActivity.USER);
 
+        buttonProjet.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                clickProject();
+            }
+        });
         buttonJury.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 clickJury(FALSE);
             }
         });
+
         buttonMyJuries.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 clickMyJury(FALSE);
-            }
-        });
-        buttonProjet.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                clickProject();
             }
         });
         buttonMyProjets.setOnClickListener(new View.OnClickListener() {
@@ -92,80 +95,28 @@ public class Activity extends AppCompatActivity {
                 clickMyJury(TRUE);
             }
         });
+
+        buttonPseudoJury.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                clickPseudoJury();
+            }
+        });
+        buttonRecupererNotes.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                clickRecupererNotes();
+            }
+        });
+
+        buttonProjetsVisiteurs.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                clickProjetsVisiteurs();
+            }
+        });
     }
 
     public void clickProject() {
 
         final String url = "https://192.168.4.248/pfe/webservice.php?q=LIPRJ&user="+user.getUsername()+"&token="+user.getToken();
-
-        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
-
-
-        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
-
-
-        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject s) {
-
-                        Log.e("RESULT", String.valueOf(s));
-                        try {
-                            if(s.getString("result").equals("OK")) {
-                                JSONArray projectsJSON = s.getJSONArray("projects");
-                                List<Project> projects = new ArrayList<>();
-                                for(int i=0; i < projectsJSON.length(); i++ ){
-
-                                    JSONObject projectJSON = projectsJSON.getJSONObject(i);
-
-                                    int projectId = projectJSON.getInt("projectId");
-                                    String title = projectJSON.getString("title");
-                                    String descrip = projectJSON.getString("descrip");
-                                    Boolean poster = projectJSON.getBoolean("poster");
-                                    int confid = projectJSON.getInt("confid");
-                                    JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
-                                    String forename = supervisorJSON.getString("forename");
-                                    String surname = supervisorJSON.getString("surname");
-                                    List<User> students = new ArrayList<>();
-                                    JSONArray listStudents = projectJSON.getJSONArray("students");
-                                    for(int j=0; j<listStudents.length(); j++){
-                                        JSONObject student = listStudents.getJSONObject(j);
-                                        students.add(new User(student.getInt("userId"),
-                                                student.getString("forename"),
-                                                student.getString("surname")
-                                        ));
-                                    }
-
-                                    projects.add(new Project(projectId, title, descrip, poster,
-                                            confid, forename, surname, students));
-                                }
-
-                                Intent intent = new Intent(getApplicationContext(),ProjetActivity.class);
-                                intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) projects);
-                                intent.putExtra(USER, user);
-
-
-                                startActivity(intent);
-                            }else{
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Log.e("RESULTfailder",volleyError.getMessage()); }
-                } );
-        rq.add(s);
-    }
-
-    public void clickMyProject() {
-
-        final String url = "https://192.168.4.248/pfe/webservice.php?q=MYPRJ&user="+user.getUsername()+"&token="+user.getToken();
 
         ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
 
@@ -290,6 +241,76 @@ public class Activity extends AppCompatActivity {
                                     clickNote(juries);
                                 }
 
+                            }else{
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.e("RESULTfailder",volleyError.getMessage()); }
+                } );
+        rq.add(s);
+    }
+
+    //PROF
+    public void clickMyProject() {
+
+        final String url = "https://192.168.4.248/pfe/webservice.php?q=MYPRJ&user="+user.getUsername()+"&token="+user.getToken();
+
+        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
+
+
+        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
+
+
+        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject s) {
+
+                        Log.e("RESULT", String.valueOf(s));
+                        try {
+                            if(s.getString("result").equals("OK")) {
+                                JSONArray projectsJSON = s.getJSONArray("projects");
+                                List<Project> projects = new ArrayList<>();
+                                for(int i=0; i < projectsJSON.length(); i++ ){
+
+                                    JSONObject projectJSON = projectsJSON.getJSONObject(i);
+
+                                    int projectId = projectJSON.getInt("projectId");
+                                    String title = projectJSON.getString("title");
+                                    String descrip = projectJSON.getString("descrip");
+                                    Boolean poster = projectJSON.getBoolean("poster");
+                                    int confid = projectJSON.getInt("confid");
+                                    JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
+                                    String forename = supervisorJSON.getString("forename");
+                                    String surname = supervisorJSON.getString("surname");
+                                    List<User> students = new ArrayList<>();
+                                    JSONArray listStudents = projectJSON.getJSONArray("students");
+                                    for(int j=0; j<listStudents.length(); j++){
+                                        JSONObject student = listStudents.getJSONObject(j);
+                                        students.add(new User(student.getInt("userId"),
+                                                student.getString("forename"),
+                                                student.getString("surname")
+                                        ));
+                                    }
+
+                                    projects.add(new Project(projectId, title, descrip, poster,
+                                            confid, forename, surname, students));
+                                }
+
+                                Intent intent = new Intent(getApplicationContext(),ProjetActivity.class);
+                                intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) projects);
+                                intent.putExtra(USER, user);
+
+
+                                startActivity(intent);
                             }else{
 
                             }
@@ -464,4 +485,84 @@ public class Activity extends AppCompatActivity {
             }
         }
     }
+
+    //COM
+    public void clickPseudoJury(){
+
+        final String url = "https://192.168.4.248/pfe/webservice.php?q=MYPRJ&user="+user.getUsername()+"&token="+user.getToken();
+
+        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
+
+
+        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
+
+
+        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject s) {
+
+                        Log.e("RESULT", String.valueOf(s));
+                        try {
+                            if(s.getString("result").equals("OK")) {
+                                JSONArray projectsJSON = s.getJSONArray("projects");
+                                List<Project> projects = new ArrayList<>();
+                                for(int i=0; i < projectsJSON.length(); i++ ){
+
+                                    JSONObject projectJSON = projectsJSON.getJSONObject(i);
+
+                                    int projectId = projectJSON.getInt("projectId");
+                                    String title = projectJSON.getString("title");
+                                    String descrip = projectJSON.getString("descrip");
+                                    Boolean poster = projectJSON.getBoolean("poster");
+                                    int confid = projectJSON.getInt("confid");
+                                    JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
+                                    String forename = supervisorJSON.getString("forename");
+                                    String surname = supervisorJSON.getString("surname");
+                                    List<User> students = new ArrayList<>();
+                                    JSONArray listStudents = projectJSON.getJSONArray("students");
+                                    for(int j=0; j<listStudents.length(); j++){
+                                        JSONObject student = listStudents.getJSONObject(j);
+                                        students.add(new User(student.getInt("userId"),
+                                                student.getString("forename"),
+                                                student.getString("surname")
+                                        ));
+                                    }
+
+                                    projects.add(new Project(projectId, title, descrip, poster,
+                                            confid, forename, surname, students));
+                                }
+
+                                Intent intent = new Intent(getApplicationContext(),ProjetActivity.class);
+                                intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) projects);
+                                intent.putExtra(USER, user);
+
+
+                                startActivity(intent);
+                            }else{
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.e("RESULTfailder",volleyError.getMessage()); }
+                } );
+        rq.add(s);
+    }
+
+    public void clickRecupererNotes(){
+
+    }
+
+    //VISITEUR
+    public void clickProjetsVisiteurs(){
+
+    }
+
 }

@@ -74,10 +74,10 @@ public class NotesActivity extends AppCompatActivity{
     }
     public void validate(Note note,String project){
         Intent intent = new Intent(this,NotesStudent.class);
-        intent.putExtra(NOTE,note.getMynote());
+        intent.putExtra(NOTE,""+note.getMynote());
         intent.putExtra(USER,user);
         intent.putExtra(PROJECT,project);
-        intent.putExtra(ETUDIANT,note.getIdUser());
+        intent.putExtra(ETUDIANT,""+note.getIdUser());
         startActivity(intent);
     }
 

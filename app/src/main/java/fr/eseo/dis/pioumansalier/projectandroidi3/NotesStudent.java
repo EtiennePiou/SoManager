@@ -39,7 +39,7 @@ public class NotesStudent extends AppCompatActivity {
             final String projets = intent.getStringExtra(NotesActivity.PROJECT);
             myNote=findViewById(R.id.myNote);
             myNote.setText(note);
-            final String etudiant = intent.getParcelableExtra(NotesActivity.ETUDIANT);
+            final String etudiant = intent.getStringExtra(NotesActivity.ETUDIANT);
             valider = findViewById(R.id.button);
             valider.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -53,6 +53,10 @@ public class NotesStudent extends AppCompatActivity {
 
 
     public void setNoteWebService(String projectId, String studentId, String newNote){
+        Log.d("username ", user.getUsername());
+        Log.d("TOken  ", user.getToken());
+        Log.d("projectId  ", projectId);
+
 
         final String url = "https://192.168.4.248/pfe/webservice.php?q=NEWNT&user="+user.getUsername()
                 +"&proj=" + projectId
