@@ -61,7 +61,7 @@ public class DescriptionActivity extends AppCompatActivity{
             supervisorsurname.setText(project.getSupervisorsurname());
             String text="";
             for (int i =0; i<project.getStudents().size();i++){
-                    text=project.getStudents().get(i).getSurname()+project.getStudents().get(i).getForename();
+                    text=text+"Prénom "+project.getStudents().get(i).getSurname()+"Nom "+project.getStudents().get(i).getForename()+"\n";
             }
             student.setText(text);
         }
