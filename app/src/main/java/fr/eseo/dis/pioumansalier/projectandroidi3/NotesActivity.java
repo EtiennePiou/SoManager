@@ -72,11 +72,11 @@ public class NotesActivity extends AppCompatActivity{
         user = (User) data.getParcelable(Activity.USER);
 
     }
-    public void validate(Note note,Project project){
+    public void validate(Note note,String project){
         Intent intent = new Intent(this,NotesStudent.class);
         intent.putExtra(NOTE,note.getMynote());
         intent.putExtra(USER,user);
-        intent.putExtra(PROJECT,project.getProjectId());
+        intent.putExtra(PROJECT,project);
         intent.putExtra(ETUDIANT,note.getIdUser());
         startActivity(intent);
     }
