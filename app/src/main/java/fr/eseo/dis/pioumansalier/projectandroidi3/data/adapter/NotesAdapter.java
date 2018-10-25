@@ -2,11 +2,15 @@ package fr.eseo.dis.pioumansalier.projectandroidi3.data.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +27,7 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
         private List<String> projets= new ArrayList<String>();
 
         private NotesActivity notesActivity;
-
+        public View notesView;
 
         public NotesAdapter(NotesActivity notesActivity){
             this.notesActivity=notesActivity;
@@ -48,6 +52,8 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
             private final TextView avgnote;
             private final TextView project;
 
+
+
             public NoteViewHolder(View view) {
                 super(view);
                 this.view = view;
@@ -71,7 +77,7 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
         @Override
         public   NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-            View notesView = LayoutInflater.from(parent.getContext()).inflate(R.layout.notes_card, parent, false);
+            notesView = LayoutInflater.from(parent.getContext()).inflate(R.layout.notes_card, parent, false);
             return new fr.eseo.dis.pioumansalier.projectandroidi3.data.adapter.NotesAdapter.NoteViewHolder(notesView);
 
         }
@@ -85,13 +91,9 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
             holder.mynote.setText(String.valueOf(note.getMynote()));
             holder.project.setText("Id du projet : "+projects);
             holder.avgnote.setText("Note moyenne : "+String.valueOf(note.getAvgnote()));
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    notesActivity.validate();
-                }
-            });
         }
+
+
     }
 
 
