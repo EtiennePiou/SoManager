@@ -49,6 +49,7 @@ public class NotesActivity extends AppCompatActivity{
     public static final String NOTE = "notes";
     public static final String USER = "user";
     public static final String PROJECT = "projets";
+    public static final String ETUDIANT = "etudiant";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,13 +72,16 @@ public class NotesActivity extends AppCompatActivity{
         ArrayList<String> projets = intent.getStringArrayListExtra(Activity.PROJECTS);
         notesAdapter.setNotes(note);
         notesAdapter.setProjects(projets);
+        Bundle data = intent.getExtras();
+        user = (User) data.getParcelable(Activity.USER);
 
     }
     public void validate(Note note,Project project){
         Intent intent = new Intent(this,NotesStudent.class);
         intent.putExtra(NOTE,note.getMynote());
-        intent.putExtra(USER,note.getIdUser());
+        intent.putExtra(USER,user);
         intent.putExtra(PROJECT,project.getProjectId());
+        intent.putExtra(ETUDIANT,note.getIdUser());
         startActivity(intent);
     }
 

@@ -42,22 +42,22 @@ public class NotesStudent extends AppCompatActivity {
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             Intent intent = getIntent();
             final String note = intent.getStringExtra(NotesActivity.NOTE);
-            final String user = intent.getStringExtra(NotesActivity.USER);
+            final User user = intent.getParcelableExtra(NotesActivity.USER);
             final String projets = intent.getStringExtra(NotesActivity.PROJECT);
             myNote=findViewById(R.id.myNote);
             myNote.setText(note);
-
+            final String etudiant = intent.getParcelableExtra(NotesActivity.ETUDIANT);
             valider = findViewById(R.id.button);
             valider.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    setNoteWebService(projets,user,note);
+                    setNoteWebService(projets,etudiant,note);
                 }
             });
         }
 
 
 
-    }
+
 
     public void setNoteWebService(String projectId, String studentId, String newNote){
 
