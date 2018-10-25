@@ -46,90 +46,44 @@ public class NotesActivity extends AppCompatActivity{
 
     private TextView validerounon;
 
+    public static final String NOTE = "notes";
+    public static final String USER = "user";
+    public static final String PROJECT = "projets";
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notation_student);
-
         RecyclerView recycler = findViewById(R.id.studentList);
-
         recycler.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(llm);
+        Intent intent = getIntent();
+
         notesAdapter= new NotesAdapter(this);
         recycler.setAdapter(notesAdapter);
         loadNoteDetails();
-
-        final Button buttonon = (Button)findViewById(R.id.button);
-        buttonon.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("tag",((EditText)(findViewById(R.id.myNote))).getText().toString());
-                validate();
-            }
-        });
-
     }
 
     private void loadNoteDetails(){
         Intent intent = getIntent();
-        this.notes = intent.getParcelableArrayListExtra(Activity.NOTES);
-        this.projets = intent.getStringArrayListExtra(Activity.PROJECTS);
-        notesAdapter.setNotes(notes);
+        ArrayList<Note> note = intent.getParcelableArrayListExtra(Activity.NOTES);
+        ArrayList<String> projets = intent.getStringArrayListExtra(Activity.PROJECTS);
+        notesAdapter.setNotes(note);
         notesAdapter.setProjects(projets);
 
-        Bundle data = intent.getExtras();
-        user = (User) data.getParcelable(Activity.USER);
+    }
+    public void validate(Note note,Project project){
+        Intent intent = new Intent(this,NotesStudent.class);
+        intent.putExtra(NOTE,note.getMynote());
+        intent.putExtra(USER,note.getIdUser());
+        intent.putExtra(PROJECT,project.getProjectId());
+        startActivity(intent);
     }
 
-    public void validate(){
-
-        for(int i=0; i<notes.size(); i++){
-
-            setNoteWebService(projets.get(i),
-                    Integer.toString(notes.get(i).getIdUser()),
-                    Double.toString(notes.get(i).getMynote()));
-        }
-    }
-
-    public void setNoteWebService(String projectId, String studentId, String newNote){
-
-        final String url = "https://192.168.4.248/pfe/webservice.php?q=NEWNT&user="+user.getUsername()
-                +"&proj=" + projectId
-                +"&student=" + studentId
-                +"&note=" + newNote
-                +"&token=" + user.getToken();
-
-        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
 
 
-        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
 
-
-        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject s) {
-
-                        Log.e("RESULT", String.valueOf(s));
-                        try {
-                            if(s.getString("result").equals("OK")) {
-                                Log.d("OK", "OK");
-                            }else{
-                                validerounon.setText("Error : Notes non mise à jour");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Log.e("RESULTfailder",volleyError.getMessage()); }
-                } );
-        rq.add(s);
-    }
 }
 
 
