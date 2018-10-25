@@ -83,8 +83,8 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
             holder.surname.setText(String.valueOf(note.getSurname()));
             holder.forename.setText(note.getForename());
             holder.mynote.setText(String.valueOf(note.getMynote()));
-            holder.project.setText(projects);
-            holder.avgnote.setText("Note moyenne "+String.valueOf(note.getAvgnote()));
+            holder.project.setText("Id du projet : "+projects);
+            holder.avgnote.setText("Note moyenne : "+String.valueOf(note.getAvgnote()));
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
