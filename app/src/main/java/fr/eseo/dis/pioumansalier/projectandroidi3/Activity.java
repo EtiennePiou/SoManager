@@ -254,7 +254,7 @@ public class Activity extends AppCompatActivity {
                                     }
                                     Double avgnote = 0.0;
                                     if(!noteJSON.getString("avgNote").equals("null")){
-                                        mynote = noteJSON.getDouble("avgNote");
+                                        avgnote = noteJSON.getDouble("avgNote");
                                     }
 
                                     listNotes.add(new Note(userId, forename, surname, mynote, avgnote));
@@ -263,7 +263,7 @@ public class Activity extends AppCompatActivity {
 
                                 if(lastProject == TRUE){
                                     for(Note note: listNotes){
-                                        Log.d("Note ", Integer.toString(note.getIdUser()));
+                                        Log.d("Note ", Double.toString(note.getMynote()));
                                     }
                                     Intent intent = new Intent(getApplicationContext(),NotesActivity.class);
                                     intent.putParcelableArrayListExtra(NOTES, (ArrayList<? extends Parcelable>) listNotes);
