@@ -77,7 +77,7 @@ public class ProjetActivity  extends AppCompatActivity {
 
         final String url = "https://192.168.4.248/pfe/webservice.php?q=POSTR&user="+user.getUsername()
                 + "&proj=" + project.getProjectId()
-                + "&style=" + "FLB64"
+                + "&style=" + "THB64"
                 + "&token="+user.getToken();
         //FULL, THUMB, FLB64, THB64
 

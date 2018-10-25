@@ -7,9 +7,17 @@
     android:paddingTop="6dp"
     android:paddingBottom="6dp"
     >
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:="center"
+        android:text = "Valider"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/studentList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/button"
         />
 </RelativeLayout>
