@@ -91,6 +91,7 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
             holder.mynote.setText(String.valueOf(note.getMynote()));
             holder.project.setText("Id du projet : "+projects);
             holder.avgnote.setText("Note moyenne : "+String.valueOf(note.getAvgnote()));
+
         }
 
 

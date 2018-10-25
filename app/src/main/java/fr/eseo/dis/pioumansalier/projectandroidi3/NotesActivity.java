@@ -41,10 +41,6 @@ public class NotesActivity extends AppCompatActivity{
     private NotesAdapter notesAdapter;
     private User user;
 
-    private ArrayList<Note> notes;
-    private ArrayList<String> projets;
-
-    private TextView validerounon;
 
     public static final String NOTE = "notes";
     public static final String USER = "user";
