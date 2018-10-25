@@ -68,9 +68,9 @@ public class JuryAdapter extends RecyclerView.Adapter<JuryAdapter.JuryViewHolder
         final Jury jury = jurys.get(position);
         holder.juryId.setText("Id "+String.valueOf(jury.getIdJury()));
         holder.date.setText(String.valueOf(jury.getDate()));
-        String projets="";
+        String projets="Titres projets : \n";
         for (int i=0;i<jury.getProjets().size();i++){
-            projets=projets+"Projet n°"+i+"\n"+jury.getProjets().get(i).getDescrib();
+            projets=projets+jury.getProjets().get(i).getTitle()+"\n";
         }
         holder.projets.setText(projets);
     }

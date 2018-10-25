@@ -33,6 +33,6 @@
         android:layout_height="match_parent"
         android:text="Liste des projets"
         android:textColor="@color/colorPrimary"
-        android:textSize="25sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>
