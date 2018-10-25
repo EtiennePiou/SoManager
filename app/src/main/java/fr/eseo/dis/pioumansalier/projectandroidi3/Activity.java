@@ -248,8 +248,14 @@ public class Activity extends AppCompatActivity {
                                     String forename = noteJSON.getString("forename");
                                     String surname = noteJSON.getString("surname");
 
-                                    Double mynote = noteJSON.getDouble("mynote");
-                                    Double avgnote = noteJSON.getDouble("avgNote");
+                                    Double mynote = 0.0;
+                                    if(!noteJSON.getString("mynote").equals("null")){
+                                        mynote = noteJSON.getDouble("mynote");
+                                    }
+                                    Double avgnote = 0.0;
+                                    if(!noteJSON.getString("avgNote").equals("null")){
+                                        mynote = noteJSON.getDouble("avgNote");
+                                    }
 
                                     listNotes.add(new Note(userId, forename, surname, mynote, avgnote));
                                     listIdProject.add(projectId);
@@ -290,7 +296,7 @@ public class Activity extends AppCompatActivity {
                 if(i == juries.size()-1 && j==projects.size()-1){
                     lastProject = TRUE;
                 }
-                webServiceNote(Integer.toString(projects.get(0).getProjectId()), lastProject, juries);
+                webServiceNote(Integer.toString(projects.get(j).getProjectId()), lastProject, juries);
             }
         }
     }
