@@ -46,7 +46,6 @@ public class DescriptionActivity extends AppCompatActivity{
             titre = findViewById(R.id.project_title);
             description = findViewById(R.id.project_description);
             supervisorforename = findViewById(R.id.project_supervisorforename);
-            supervisorsurname = findViewById(R.id.project_supervisorsurame);
             student = findViewById(R.id.project_student);
             project_image = findViewById(R.id.project_image);
             confidentiel=findViewById(R.id.project_confidentiality);
