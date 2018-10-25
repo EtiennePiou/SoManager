@@ -59,15 +59,7 @@
             android:text="Supervisor"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp" />
-        <TextView
-        android:id="@+id/project_supervisorsurame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:maxLines="2"
-        android:text="Supervisor"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp" />
+
 
 
         <TextView

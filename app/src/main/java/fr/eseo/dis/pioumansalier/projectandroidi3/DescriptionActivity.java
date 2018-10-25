@@ -35,7 +35,7 @@ public class DescriptionActivity extends AppCompatActivity{
         private TextView supervisorsurname;
         private TextView student;
         private ImageView project_image;
-
+        private TextView confidentiel;
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -49,19 +49,19 @@ public class DescriptionActivity extends AppCompatActivity{
             supervisorsurname = findViewById(R.id.project_supervisorsurame);
             student = findViewById(R.id.project_student);
             project_image = findViewById(R.id.project_image);
-
+            confidentiel=findViewById(R.id.project_confidentiality);
             String image = intent.getStringExtra(ProjetActivity.IMAGE);
             byte [] encodeByte = Base64.decode(image,Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             project_image.setImageBitmap(bitmap);
 
             titre.setText(project.getTitle());
+            confidentiel.setText("Confidentiel : "+project.getConfid());
             description.setText(project.getDescrib());
-            supervisorforename.setText(project.getSupervisorforename());
-            supervisorsurname.setText(project.getSupervisorsurname());
-            String text="";
+            supervisorforename.setText("Superviseur" +project.getSupervisorforename()+project.getSupervisorsurname());
+            String text="Etudiants : "+"\n";
             for (int i =0; i<project.getStudents().size();i++){
-                    text=text+"Prénom "+project.getStudents().get(i).getSurname()+"Nom "+project.getStudents().get(i).getForename()+"\n";
+                    text=text+"Prénom "+project.getStudents().get(i).getSurname()+" Nom "+project.getStudents().get(i).getForename()+"\n";
             }
             student.setText(text);
         }

@@ -66,11 +66,11 @@ public class JuryAdapter extends RecyclerView.Adapter<JuryAdapter.JuryViewHolder
     @Override
     public void onBindViewHolder(@NonNull JuryAdapter.JuryViewHolder holder, int position) {
         final Jury jury = jurys.get(position);
-        holder.juryId.setText(String.valueOf(jury.getIdJury()));
+        holder.juryId.setText("Id "+String.valueOf(jury.getIdJury()));
         holder.date.setText(String.valueOf(jury.getDate()));
         String projets="";
         for (int i=0;i<jury.getProjets().size();i++){
-            projets="Projet n°"+i+"\n"+jury.getProjets().get(i).getDescrib();
+            projets=projets+"Projet n°"+i+"\n"+jury.getProjets().get(i).getDescrib();
         }
         holder.projets.setText(projets);
     }
