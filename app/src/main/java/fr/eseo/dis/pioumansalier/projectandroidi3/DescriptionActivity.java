@@ -58,7 +58,7 @@ public class DescriptionActivity extends AppCompatActivity{
             titre.setText(project.getTitle());
             confidentiel.setText("Confidentiel : "+project.getConfid());
             description.setText(project.getDescrib());
-            supervisorforename.setText("Superviseur" +project.getSupervisorforename()+project.getSupervisorsurname());
+            supervisorforename.setText("Superviseur : " +project.getSupervisorforename()+project.getSupervisorsurname());
             String text="Etudiants : "+"\n";
             for (int i =0; i<project.getStudents().size();i++){
                     text=text+"Prénom "+project.getStudents().get(i).getSurname()+" Nom "+project.getStudents().get(i).getForename()+"\n";
