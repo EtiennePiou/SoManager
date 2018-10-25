@@ -24,6 +24,7 @@
         <activity android:name=".TestServiceWebActivity"></activity>
         <activity android:name=".JuriesActivity"></activity>
         <activity android:name=".DescriptionActivity"></activity>
+        <activity android:name=".NotesActivity"></activity>
     </application>
 
 </manifest>
