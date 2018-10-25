@@ -12,11 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text = "Valider"/>
+    <TextView
+        android:id="@+id/validerounon"
+        android:layout_below="@id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = ""/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/studentList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/button"
+        android:layout_below="@id/validerounon"
         />
 </RelativeLayout>

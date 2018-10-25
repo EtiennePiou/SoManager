@@ -88,7 +88,7 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    notesActivity.validate();
                 }
             });
         }
