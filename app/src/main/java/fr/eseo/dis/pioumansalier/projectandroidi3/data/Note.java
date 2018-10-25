@@ -1,21 +1,44 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3.data;
 
 import android.arch.persistence.room.Entity;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class Note {
+public class Note implements Parcelable {
+    public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<Note>(){
+        public Note createFromParcel(Parcel source){
+            return new Note(source);
+        }
+
+        public Note[] newArray(int size){
+            return new Note[size];
+        }
+    };
+
     int idUser;
     String forename;
     String surname;
-    float mynote;
-    float avgnote;
+    Double mynote;
+    Double avgnote;
 
-    public Note(int idUser, String forename, String surname, float mynote, float avgnote) {
+    public Note(int idUser, String forename, String surname, Double mynote, Double avgnote) {
         this.setIdUser(idUser);
         this.setForename(forename);
         this.setSurname(surname);
         this.setMynote(mynote);
         this.setAvgnote(avgnote);
+    }
+
+    public Note(Parcel in) {
+        this.setIdUser(in.readInt());
+        this.setForename(in.readString());
+        this.setSurname(in.readString());
+        this.setMynote(in.readDouble());
+        this.setAvgnote(in.readDouble());
     }
 
     public int getIdUser() {
@@ -30,11 +53,11 @@ public class Note {
         return this.surname;
     }
 
-    public float getMynote() {
+    public Double getMynote() {
         return this.mynote;
     }
 
-    public float getAvgnote() {
+    public Double getAvgnote() {
         return this.avgnote;
     }
 
@@ -50,11 +73,25 @@ public class Note {
         this.surname = surname;
     }
 
-    public void setMynote(float mynote) {
+    public void setMynote(Double mynote) {
         this.mynote = mynote;
     }
 
-    public void setAvgnote(float avgnote) {
+    public void setAvgnote(Double avgnote) {
         this.avgnote = avgnote;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.idUser);
+        dest.writeString(this.forename);
+        dest.writeString(this.surname);
+        dest.writeDouble(this.mynote);
+        dest.writeDouble(this.avgnote);
     }
 }

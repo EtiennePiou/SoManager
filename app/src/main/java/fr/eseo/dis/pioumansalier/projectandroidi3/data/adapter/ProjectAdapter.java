@@ -69,7 +69,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                projectActivity.clickProjectCard(project);
+                projectActivity.clickPoster(project);
             }
         });
     }
