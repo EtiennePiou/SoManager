@@ -48,7 +48,7 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
             private final View view;
             private final TextView surname;
             private final TextView forename;
-            private final EditText mynote;
+            private final TextView mynote;
             private final TextView avgnote;
             private final TextView project;
 

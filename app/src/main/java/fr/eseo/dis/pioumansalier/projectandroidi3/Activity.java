@@ -48,11 +48,20 @@ public class Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Button buttonJury = findViewById(R.id.Juries);
-        final Button buttonMyJuries = findViewById(R.id.MyJuries);
+
+        //GENERAL:
         final Button buttonProjet = findViewById(R.id.Projets);
+        final Button buttonJury = findViewById(R.id.Juries);
+
+        // PROFS:
+        final Button buttonMyJuries = findViewById(R.id.MyJuries);
         final Button buttonMyProjets = findViewById(R.id.MyProjets);
         final Button buttonNote = findViewById(R.id.Notes);
+
+        //COM:
+        //final Button button
+
+        //VISITEUR:
 
         Intent intent = getIntent();
         Bundle data = intent.getExtras();
