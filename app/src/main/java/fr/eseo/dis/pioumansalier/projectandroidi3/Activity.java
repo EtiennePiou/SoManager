@@ -532,6 +532,7 @@ public class Activity extends AppCompatActivity {
 
     public void clickNote(List<Jury> juries){
         Boolean lastProject = FALSE;
+        listNotes.clear();
         for(int i=0; i<juries.size(); i++){
             List<Project> projects = juries.get(i).getProjets();
             for(int j=0; j<projects.size(); j++){

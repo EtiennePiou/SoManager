@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,9 +25,12 @@ import fr.eseo.dis.pioumansalier.projectandroidi3.Util.ServiceWebUtil;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.User;
 
 public class NotesStudent extends AppCompatActivity {
-        private EditText myNote;
+        private TextView myNote;
         User user;
         Button valider;
+        TextView error;
+
+
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.notation_s);
@@ -37,13 +41,15 @@ public class NotesStudent extends AppCompatActivity {
             final String note = intent.getStringExtra(NotesActivity.NOTE);
             user = intent.getParcelableExtra(NotesActivity.USER);
             final String projets = intent.getStringExtra(NotesActivity.PROJECT);
-            myNote=findViewById(R.id.myNote);
+            myNote=findViewById(R.id.newNote);
             myNote.setText(note);
+            error=findViewById(R.id.error);
             final String etudiant = intent.getStringExtra(NotesActivity.ETUDIANT);
             valider = findViewById(R.id.button);
             valider.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    setNoteWebService(projets,etudiant,note);
+                    myNote = findViewById(R.id.newNote);
+                    setNoteWebService(projets,etudiant,myNote.getText().toString());
                 }
             });
         }
@@ -53,9 +59,8 @@ public class NotesStudent extends AppCompatActivity {
 
 
     public void setNoteWebService(String projectId, String studentId, String newNote){
-        Log.d("username ", user.getUsername());
-        Log.d("TOken  ", user.getToken());
-        Log.d("projectId  ", projectId);
+
+
 
 
         final String url = "https://192.168.4.248/pfe/webservice.php?q=NEWNT&user="+user.getUsername()
@@ -63,7 +68,13 @@ public class NotesStudent extends AppCompatActivity {
                 +"&student=" + studentId
                 +"&note=" + newNote
                 +"&token=" + user.getToken();
-
+        if(newNote!=null){
+            Log.e("newnote",newNote);
+            Log.e("ote",studentId);
+        }
+        else{
+            Log.e("newnote","null");
+        }
         ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
 
 
@@ -80,7 +91,7 @@ public class NotesStudent extends AppCompatActivity {
                             if(s.getString("result").equals("OK")) {
                                 Log.d("OK", "OK");
                             }else{
-                                valider.setText("Error : Notes non mise à jour");
+                                error.setText("Error : Note non mise à jour");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

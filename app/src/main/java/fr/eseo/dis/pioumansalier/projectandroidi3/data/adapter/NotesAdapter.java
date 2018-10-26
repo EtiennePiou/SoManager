@@ -36,6 +36,7 @@ public class NotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansalier
             setProjects(projets);
         }
         public void setNotes(List<Note> notes){
+
             this.notes=notes;
 
 

@@ -64,9 +64,9 @@ public class NotesActivity extends AppCompatActivity{
 
     private void loadNoteDetails(){
         Intent intent = getIntent();
-        ArrayList<Note> note = intent.getParcelableArrayListExtra(Activity.NOTES);
+        ArrayList<Note> notes = intent.getParcelableArrayListExtra(Activity.NOTES);
         ArrayList<String> projets = intent.getStringArrayListExtra(Activity.PROJECTS);
-        notesAdapter.setNotes(note);
+        notesAdapter.setNotes(notes);
         notesAdapter.setProjects(projets);
         Bundle data = intent.getExtras();
         user = (User) data.getParcelable(Activity.USER);

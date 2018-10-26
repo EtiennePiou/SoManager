@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/myNote"
+                android:id="@+id/newNote"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="2dp"
@@ -40,6 +40,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text = "Valider"
+                />
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text = ""
                 />
 
 
