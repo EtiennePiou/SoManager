@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     User user;
     public static final String USER = "user";
 
-public static final String MESSAGE="android";
+    public static final String MESSAGE="android";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +49,14 @@ public static final String MESSAGE="android";
         connexionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 clickConnexion();
+            }
+        });
+        //VISITEUR:
+        Button buttonProjetsVisiteurs =  findViewById(R.id.visiteur);
+        buttonProjetsVisiteurs.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("dedans","de");
+                visiteurs();
             }
         });
     }
@@ -96,5 +104,11 @@ public static final String MESSAGE="android";
                 } );
 
         rq.add(s);
+    }
+
+    public void visiteurs(){
+        Log.d("dedans","de");
+        Intent intent = new Intent(this, VisiteurActivity.class);
+        startActivity(intent);
     }
 }
