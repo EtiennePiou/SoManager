@@ -27,6 +27,9 @@ public class Project implements Parcelable {
     String supervisorsurname;
     List<User> students;
 
+    List<String> commentairesPseudoJury;
+    List<String> notesPseudoJury;
+
     public Project(int projectId, String title, String describ, boolean poster, int confid, String supervisorforename, String supervisorsurname, List<User> students) {
         this.projectId = projectId;
         this.title = title;
@@ -42,6 +45,12 @@ public class Project implements Parcelable {
     public Project(int projectId, String title) {
         this.projectId = projectId;
         this.title = title;
+    }
+
+    public Project(int projectId, String title, String describ) {
+        this.projectId = projectId;
+        this.title = title;
+        this.describ = describ;
     }
 
 
@@ -91,6 +100,14 @@ public class Project implements Parcelable {
         return this.students;
     }
 
+    public List<String> getCommentairesPseudoJury() {
+        return commentairesPseudoJury;
+    }
+
+    public List<String> getNotesPseudoJury() {
+        return notesPseudoJury;
+    }
+
     public void setProjectId(int projectId) {
         this.projectId = projectId;
     }
@@ -121,6 +138,22 @@ public class Project implements Parcelable {
 
     public void setStudents(List<User> students) {
         this.students = students;
+    }
+
+    public void setCommentairesPseudoJury(List<String> commentairesPseudoJury) {
+        this.commentairesPseudoJury = commentairesPseudoJury;
+    }
+
+    public void setNotesPseudoJury(List<String> notesPseudoJury) {
+        this.notesPseudoJury = notesPseudoJury;
+    }
+
+    public void addCommentairePseudoJury(String commentaire){
+        this.commentairesPseudoJury.add(commentaire);
+    }
+
+    public void addNotePseudoJury(String note){
+        this.notesPseudoJury.add(note);
     }
 
     @Override

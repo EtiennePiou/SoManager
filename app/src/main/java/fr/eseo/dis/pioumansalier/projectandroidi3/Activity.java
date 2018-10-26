@@ -12,9 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -546,72 +548,77 @@ public class Activity extends AppCompatActivity {
 
     //COM
     public void clickPseudoJury(){
+        if(isNetworkAvailable()){
 
-        final String url = "https://192.168.4.248/pfe/webservice.php?q=MYPRJ&user="+user.getUsername()+"&token="+user.getToken();
+            final String url = "https://192.168.4.248/pfe/webservice.php?q=PORTE&user="+user.getUsername()
+                    +"&token="+user.getToken();
 
-        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
-
-
-        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
+            ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
 
 
-        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject s) {
+            RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
 
-                        Log.e("RESULT", String.valueOf(s));
-                        try {
-                            if(s.getString("result").equals("OK")) {
-                                JSONArray projectsJSON = s.getJSONArray("projects");
-                                List<Project> projects = new ArrayList<>();
-                                for(int i=0; i < projectsJSON.length(); i++ ){
 
-                                    JSONObject projectJSON = projectsJSON.getJSONObject(i);
+            JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject s) {
 
-                                    int projectId = projectJSON.getInt("projectId");
-                                    String title = projectJSON.getString("title");
-                                    String descrip = projectJSON.getString("descrip");
-                                    Boolean poster = projectJSON.getBoolean("poster");
-                                    int confid = projectJSON.getInt("confid");
-                                    JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
-                                    String forename = supervisorJSON.getString("forename");
-                                    String surname = supervisorJSON.getString("surname");
-                                    List<User> students = new ArrayList<>();
-                                    JSONArray listStudents = projectJSON.getJSONArray("students");
-                                    for(int j=0; j<listStudents.length(); j++){
-                                        JSONObject student = listStudents.getJSONObject(j);
-                                        students.add(new User(student.getInt("userId"),
-                                                student.getString("forename"),
-                                                student.getString("surname")
-                                        ));
+                            Log.e("RESULT", String.valueOf(s));
+                            try {
+                                if(s.getString("result").equals("OK")) {
+                                    JSONArray projectsJSON = s.getJSONArray("projects");
+                                    ArrayList<Project> projects = new ArrayList<>();
+                                    ArrayList<String> posters = new ArrayList<>();
+                                    for(int i=0; i < projectsJSON.length(); i++ ){
+
+                                        JSONObject projectJSON = projectsJSON.getJSONObject(i);
+
+                                        int projectId = projectJSON.getInt("idProject");
+                                        String title = projectJSON.getString("title");
+                                        String descrip = projectJSON.getString("description");
+                                        String poster = projectJSON.getString("poster");
+
+
+                                        projects.add(new Project(projectId, title, descrip));
+                                        posters.add(poster);
                                     }
 
-                                    projects.add(new Project(projectId, title, descrip, poster,
-                                            confid, forename, surname, students));
+                                    Jury pseudoJury = new Jury(-1, projects);
+                                    DummyData.setPseudoJuryProjects(projects);
+                                    DummyData.setPseudoJury(pseudoJury);
+                                    List<Jury> ListPseudoJury = new ArrayList<>();
+                                    ListPseudoJury.add(pseudoJury);
+
+
+                                    Intent intent = new Intent(getApplicationContext(),JuriesActivity.class);
+                                    intent.putParcelableArrayListExtra(JURIES, (ArrayList<? extends Parcelable>) ListPseudoJury);
+                                    intent.putExtra(USER, user);
+
+
+                                    startActivity(intent);
                                 }
-
-                                Intent intent = new Intent(getApplicationContext(),ProjetActivity.class);
-                                intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) projects);
-                                intent.putExtra(USER, user);
-
-
-                                startActivity(intent);
-                            }else{
-
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                },
+                    },
 
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Log.e("RESULTfailder",volleyError.getMessage()); }
-                } );
-        rq.add(s);
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Log.e("RESULTfailder",volleyError.getMessage()); }
+                    } );
+            int socketTimeout = 30000;//30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            s.setRetryPolicy(policy);
+            rq.add(s);
+        }else{
+            Intent intent = new Intent(getApplicationContext(),JuriesActivity.class);
+            intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) DummyData.getListProject());
+            intent.putExtra(USER, user);
+            startActivity(intent);
+        }
     }
 
     public void clickRecupererNotes(){

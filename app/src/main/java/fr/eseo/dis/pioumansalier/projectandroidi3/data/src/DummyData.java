@@ -16,6 +16,10 @@ public class DummyData {
     private static List<Jury> MY_LIST_JURIES = new ArrayList<>();
     private static List<Note> LIST_NOTE = new ArrayList<>();
 
+    private static Jury PSEUDO_JURY;
+    private static List<Project> PSEUDO_JURY_PROJECTS = new ArrayList<>();
+    private static List<String> PSEUDO_JURY_POSTERS = new ArrayList<>();
+
     private DummyData() {
     }
 
@@ -39,6 +43,14 @@ public class DummyData {
         return LIST_NOTE;
     }
 
+    public static Jury getPseudoJury() {
+        return PSEUDO_JURY;
+    }
+
+    public static List<Project> getPseudoJuryPrjects() {
+        return PSEUDO_JURY_PROJECTS;
+    }
+
     public static void setListProject(List<Project> listProject) {
         LIST_PROJECT = listProject;
     }
@@ -57,5 +69,13 @@ public class DummyData {
 
     public static void setListNote(List<Note> listNote) {
         LIST_NOTE = listNote;
+    }
+
+    public static void setPseudoJury(Jury pseudoJury) {
+        PSEUDO_JURY = pseudoJury;
+    }
+
+    public static void setPseudoJuryProjects(List<Project> pseudoJuryProjects) {
+        PSEUDO_JURY_PROJECTS = pseudoJuryProjects;
     }
 }
