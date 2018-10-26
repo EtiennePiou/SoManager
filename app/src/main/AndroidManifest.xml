@@ -28,6 +28,7 @@
         <activity android:name=".NotesActivity"></activity>
         <activity android:name=".NotesStudent"></activity>
         <activity android:name=".VisiteurActivity"></activity>
+        <activity android:name=".VisiteursProjetsActivity"></activity>
     </application>
 
 </manifest>

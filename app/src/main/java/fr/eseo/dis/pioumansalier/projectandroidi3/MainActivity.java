@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void visiteurs(){
         Log.d("dedans","de");
-        Intent intent = new Intent(this, VisiteurActivity.class);
+        Intent intent = new Intent(this, VisiteursProjetsActivity.class);
         startActivity(intent);
     }
 }
