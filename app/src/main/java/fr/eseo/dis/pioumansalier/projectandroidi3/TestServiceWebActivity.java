@@ -1,5 +1,6 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -69,9 +70,20 @@ public class TestServiceWebActivity extends AppCompatActivity {
                 clickConnexion();
             }
         });
+        Log.d("dedans","de");
+        //VISITEUR:
+        Button buttonProjetsVisiteurs =  findViewById(R.id.visiteur);
+        buttonProjetsVisiteurs.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("dedans","de");
+                visiteurs();
+            }
+        });
     }
 
+
     public void clickConnexion() {
+
         final String username = loginEdit.getText().toString();
         final String password = passwdEdit.getText().toString();
 
@@ -174,5 +186,11 @@ public class TestServiceWebActivity extends AppCompatActivity {
         }
 
         return  null;
+    }
+
+    public void visiteurs(){
+        Log.d("dedans","de");
+        Intent intent = new Intent(this, VisiteurActivity.class);
+        startActivity(intent);
     }
 }

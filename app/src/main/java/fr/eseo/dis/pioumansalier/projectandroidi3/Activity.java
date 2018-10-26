@@ -69,8 +69,7 @@ public class Activity extends AppCompatActivity {
         final Button buttonPseudoJury = findViewById(R.id.PseudoJury);
         final Button buttonRecupererNotes = findViewById(R.id.RecupererNotes);
 
-        //VISITEUR:
-        final Button buttonProjetsVisiteurs = findViewById(R.id.ProjetsVisiteurs);
+
 
         Intent intent = getIntent();
         Bundle data = intent.getExtras();
@@ -114,11 +113,7 @@ public class Activity extends AppCompatActivity {
             }
         });
 
-        buttonProjetsVisiteurs.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                clickProjetsVisiteurs();
-            }
-        });
+
     }
 
     private boolean isNetworkAvailable() {
@@ -589,7 +584,7 @@ public class Activity extends AppCompatActivity {
                                     DummyData.setPseudoJury(pseudoJury);
                                     List<Jury> ListPseudoJury = new ArrayList<>();
                                     ListPseudoJury.add(pseudoJury);
-
+                                    DummyData.setPseudoJuryPosters(posters);
 
                                     Intent intent = new Intent(getApplicationContext(),JuriesActivity.class);
                                     intent.putParcelableArrayListExtra(JURIES, (ArrayList<? extends Parcelable>) ListPseudoJury);

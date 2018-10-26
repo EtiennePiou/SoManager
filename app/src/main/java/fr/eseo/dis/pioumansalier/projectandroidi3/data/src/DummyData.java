@@ -78,4 +78,12 @@ public class DummyData {
     public static void setPseudoJuryProjects(List<Project> pseudoJuryProjects) {
         PSEUDO_JURY_PROJECTS = pseudoJuryProjects;
     }
+
+    public static List<String> getPseudoJuryPosters() {
+        return PSEUDO_JURY_POSTERS;
+    }
+
+    public static void setPseudoJuryPosters(List<String> pseudoJuryPosters) {
+        PSEUDO_JURY_POSTERS = pseudoJuryPosters;
+    }
 }
