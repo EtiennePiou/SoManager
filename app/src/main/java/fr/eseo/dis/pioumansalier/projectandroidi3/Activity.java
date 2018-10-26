@@ -1,6 +1,9 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +32,8 @@ import fr.eseo.dis.pioumansalier.projectandroidi3.data.Jury;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.Note;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.Project;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.User;
+
+import fr.eseo.dis.pioumansalier.projectandroidi3.data.src.DummyData;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -114,293 +119,345 @@ public class Activity extends AppCompatActivity {
         });
     }
 
-    public void clickProject() {
-
-        final String url = "https://192.168.4.248/pfe/webservice.php?q=LIPRJ&user="+user.getUsername()+"&token="+user.getToken();
-
-        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
-
-
-        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
-
-
-        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject s) {
-
-                        Log.e("RESULT", String.valueOf(s));
-                        try {
-                            if(s.getString("result").equals("OK")) {
-                                JSONArray projectsJSON = s.getJSONArray("projects");
-                                List<Project> projects = new ArrayList<>();
-                                for(int i=0; i < projectsJSON.length(); i++ ){
-
-                                    JSONObject projectJSON = projectsJSON.getJSONObject(i);
-
-                                    int projectId = projectJSON.getInt("projectId");
-                                    String title = projectJSON.getString("title");
-                                    String descrip = projectJSON.getString("descrip");
-                                    Boolean poster = projectJSON.getBoolean("poster");
-                                    int confid = projectJSON.getInt("confid");
-                                    JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
-                                    String forename = supervisorJSON.getString("forename");
-                                    String surname = supervisorJSON.getString("surname");
-                                    List<User> students = new ArrayList<>();
-                                    JSONArray listStudents = projectJSON.getJSONArray("students");
-                                    for(int j=0; j<listStudents.length(); j++){
-                                        JSONObject student = listStudents.getJSONObject(j);
-                                        students.add(new User(student.getInt("userId"),
-                                                student.getString("forename"),
-                                                student.getString("surname")
-                                        ));
-                                    }
-
-                                    projects.add(new Project(projectId, title, descrip, poster,
-                                            confid, forename, surname, students));
-                                }
-
-                                Intent intent = new Intent(getApplicationContext(),ProjetActivity.class);
-                                intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) projects);
-                                intent.putExtra(USER, user);
-
-
-                                startActivity(intent);
-                            }else{
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Log.e("RESULTfailder",volleyError.getMessage()); }
-                } );
-        rq.add(s);
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void clickJury(final boolean isClickNote){
+    public void clickProject() {
+        if(isNetworkAvailable()){
 
-        final String url = "https://192.168.4.248/pfe/webservice.php?q=LIJUR&user="+user.getUsername()+"&token="+user.getToken();
+            final String url = "https://192.168.4.248/pfe/webservice.php?q=LIPRJ&user="+user.getUsername()+"&token="+user.getToken();
 
-        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
-
-
-        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
+            ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
 
 
-        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject s) {
+            RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
 
-                        Log.e("RESULT", String.valueOf(s));
-                        try {
-                            if(s.getString("result").equals("OK")) {
-                                JSONArray juriesJSON = s.getJSONArray("juries");
-                                List<Jury> juries = new ArrayList<>();
-                                for(int i=0; i < juriesJSON.length(); i++ ){
 
-                                    JSONObject juryJSON = juriesJSON.getJSONObject(i);
+            JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject s) {
 
-                                    int juryId = juryJSON.getInt("idJury");
-                                    String date = juryJSON.getString("date");
+                            Log.e("RESULT", String.valueOf(s));
+                            try {
+                                if(s.getString("result").equals("OK")) {
+                                    JSONArray projectsJSON = s.getJSONArray("projects");
+                                    List<Project> projects = new ArrayList<>();
+                                    for(int i=0; i < projectsJSON.length(); i++ ){
 
-                                    JSONObject infoJSON = juryJSON.getJSONObject("info");
-                                    JSONArray projectsJSON = infoJSON.getJSONArray("projects");
+                                        JSONObject projectJSON = projectsJSON.getJSONObject(i);
 
-                                    List<Project> projects = new ArrayList<Project>();
-                                    for(int j=0; j<projectsJSON.length(); j++){
-                                        JSONObject projectJSON = projectsJSON.getJSONObject(j);
                                         int projectId = projectJSON.getInt("projectId");
                                         String title = projectJSON.getString("title");
-                                        int confid = projectJSON.getInt("confid");
+                                        String descrip = projectJSON.getString("descrip");
                                         Boolean poster = projectJSON.getBoolean("poster");
+                                        int confid = projectJSON.getInt("confid");
                                         JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
                                         String forename = supervisorJSON.getString("forename");
                                         String surname = supervisorJSON.getString("surname");
-                                        projects.add(new Project(projectId, title, "", poster,
-                                                confid, forename, surname, null));
+                                        List<User> students = new ArrayList<>();
+                                        JSONArray listStudents = projectJSON.getJSONArray("students");
+                                        for(int j=0; j<listStudents.length(); j++){
+                                            JSONObject student = listStudents.getJSONObject(j);
+                                            students.add(new User(student.getInt("userId"),
+                                                    student.getString("forename"),
+                                                    student.getString("surname")
+                                            ));
+                                        }
+
+                                        projects.add(new Project(projectId, title, descrip, poster,
+                                                confid, forename, surname, students));
                                     }
 
-                                    juries.add(new Jury(juryId, date, null, projects));
-                                }
+                                    //Ajout de la liste des projets dans la DummyData:
+                                    DummyData.setListProject(projects);
 
-                                Log.d("TEST ", juries.get(0).getProjets().get(0).getTitle());
 
-                                if(isClickNote == FALSE){
-                                    Intent intent = new Intent(getApplicationContext(),JuriesActivity.class);
-                                    intent.putParcelableArrayListExtra(JURIES, (ArrayList<? extends Parcelable>) juries);
+                                    Intent intent = new Intent(getApplicationContext(),ProjetActivity.class);
+                                    intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) projects);
+                                    intent.putExtra(USER, user);
+
 
                                     startActivity(intent);
-                                } else {
-                                    clickNote(juries);
+                                }else{
+
                                 }
-
-                            }else{
-
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                },
+                    },
 
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Log.e("RESULTfailder",volleyError.getMessage()); }
-                } );
-        rq.add(s);
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Log.e("RESULTfailder",volleyError.getMessage()); }
+                    } );
+            rq.add(s);
+        }else{
+            Intent intent = new Intent(getApplicationContext(),ProjetActivity.class);
+            intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) DummyData.getListProject());
+            intent.putExtra(USER, user);
+            startActivity(intent);
+        }
+
+
+    }
+
+    public void clickJury(final boolean isClickNote){
+        if(isNetworkAvailable()) {
+
+            final String url = "https://192.168.4.248/pfe/webservice.php?q=LIJUR&user=" + user.getUsername() + "&token=" + user.getToken();
+
+            ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
+
+
+            RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
+
+
+            JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject s) {
+
+                            Log.e("RESULT", String.valueOf(s));
+                            try {
+                                if (s.getString("result").equals("OK")) {
+                                    JSONArray juriesJSON = s.getJSONArray("juries");
+                                    List<Jury> juries = new ArrayList<>();
+                                    for (int i = 0; i < juriesJSON.length(); i++) {
+
+                                        JSONObject juryJSON = juriesJSON.getJSONObject(i);
+
+                                        int juryId = juryJSON.getInt("idJury");
+                                        String date = juryJSON.getString("date");
+
+                                        JSONObject infoJSON = juryJSON.getJSONObject("info");
+                                        JSONArray projectsJSON = infoJSON.getJSONArray("projects");
+
+                                        List<Project> projects = new ArrayList<Project>();
+                                        for (int j = 0; j < projectsJSON.length(); j++) {
+                                            JSONObject projectJSON = projectsJSON.getJSONObject(j);
+                                            int projectId = projectJSON.getInt("projectId");
+                                            String title = projectJSON.getString("title");
+                                            int confid = projectJSON.getInt("confid");
+                                            Boolean poster = projectJSON.getBoolean("poster");
+                                            JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
+                                            String forename = supervisorJSON.getString("forename");
+                                            String surname = supervisorJSON.getString("surname");
+                                            projects.add(new Project(projectId, title, "", poster,
+                                                    confid, forename, surname, null));
+                                        }
+
+                                        juries.add(new Jury(juryId, date, null, projects));
+                                    }
+
+                                    DummyData.setListJuries(juries);
+
+                                    if (isClickNote == FALSE) {
+                                        Intent intent = new Intent(getApplicationContext(), JuriesActivity.class);
+                                        intent.putParcelableArrayListExtra(JURIES, (ArrayList<? extends Parcelable>) juries);
+
+                                        startActivity(intent);
+                                    } else {
+                                        clickNote(juries);
+                                    }
+
+                                } else {
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Log.e("RESULTfailder", volleyError.getMessage());
+                        }
+                    });
+            rq.add(s);
+        }else{
+            if (isClickNote == FALSE) {
+                Intent intent = new Intent(getApplicationContext(), JuriesActivity.class);
+                intent.putParcelableArrayListExtra(JURIES, (ArrayList<? extends Parcelable>) DummyData.getListJuries());
+
+                startActivity(intent);
+            } else {
+                clickNote(DummyData.getListJuries());
+            }
+        }
     }
 
     //PROF
     public void clickMyProject() {
+        if(isNetworkAvailable()) {
 
-        final String url = "https://192.168.4.248/pfe/webservice.php?q=MYPRJ&user="+user.getUsername()+"&token="+user.getToken();
+            final String url = "https://192.168.4.248/pfe/webservice.php?q=MYPRJ&user=" + user.getUsername() + "&token=" + user.getToken();
 
-        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
-
-
-        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
+            ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
 
 
-        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject s) {
-
-                        Log.e("RESULT", String.valueOf(s));
-                        try {
-                            if(s.getString("result").equals("OK")) {
-                                JSONArray projectsJSON = s.getJSONArray("projects");
-                                List<Project> projects = new ArrayList<>();
-                                for(int i=0; i < projectsJSON.length(); i++ ){
-
-                                    JSONObject projectJSON = projectsJSON.getJSONObject(i);
-
-                                    int projectId = projectJSON.getInt("projectId");
-                                    String title = projectJSON.getString("title");
-                                    String descrip = projectJSON.getString("descrip");
-                                    Boolean poster = projectJSON.getBoolean("poster");
-                                    int confid = projectJSON.getInt("confid");
-                                    JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
-                                    String forename = supervisorJSON.getString("forename");
-                                    String surname = supervisorJSON.getString("surname");
-                                    List<User> students = new ArrayList<>();
-                                    JSONArray listStudents = projectJSON.getJSONArray("students");
-                                    for(int j=0; j<listStudents.length(); j++){
-                                        JSONObject student = listStudents.getJSONObject(j);
-                                        students.add(new User(student.getInt("userId"),
-                                                student.getString("forename"),
-                                                student.getString("surname")
-                                        ));
-                                    }
-
-                                    projects.add(new Project(projectId, title, descrip, poster,
-                                            confid, forename, surname, students));
-                                }
-
-                                Intent intent = new Intent(getApplicationContext(),ProjetActivity.class);
-                                intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) projects);
-                                intent.putExtra(USER, user);
+            RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
 
 
-                                startActivity(intent);
-                            }else{
+            JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject s) {
 
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
+                            Log.e("RESULT", String.valueOf(s));
+                            try {
+                                if (s.getString("result").equals("OK")) {
+                                    JSONArray projectsJSON = s.getJSONArray("projects");
+                                    List<Project> projects = new ArrayList<>();
+                                    for (int i = 0; i < projectsJSON.length(); i++) {
 
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Log.e("RESULTfailder",volleyError.getMessage()); }
-                } );
-        rq.add(s);
-    }
+                                        JSONObject projectJSON = projectsJSON.getJSONObject(i);
 
-    public void clickMyJury(final boolean isClickNote){
-
-        final String url = "https://192.168.4.248/pfe/webservice.php?q=MYJUR&user="+user.getUsername()+"&token="+user.getToken();
-
-        ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
-
-
-        RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
-
-
-        JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject s) {
-
-                        Log.e("RESULT", String.valueOf(s));
-                        try {
-                            if(s.getString("result").equals("OK")) {
-                                JSONArray juriesJSON = s.getJSONArray("juries");
-                                List<Jury> juries = new ArrayList<>();
-                                for(int i=0; i < juriesJSON.length(); i++ ){
-
-                                    JSONObject juryJSON = juriesJSON.getJSONObject(i);
-
-                                    int juryId = juryJSON.getInt("idJury");
-                                    String date = juryJSON.getString("date");
-
-                                    JSONObject infoJSON = juryJSON.getJSONObject("info");
-                                    JSONArray projectsJSON = infoJSON.getJSONArray("projects");
-
-                                    List<Project> projects = new ArrayList<Project>();
-                                    for(int j=0; j<projectsJSON.length(); j++){
-                                        JSONObject projectJSON = projectsJSON.getJSONObject(j);
                                         int projectId = projectJSON.getInt("projectId");
                                         String title = projectJSON.getString("title");
-                                        int confid = projectJSON.getInt("confid");
+                                        String descrip = projectJSON.getString("descrip");
                                         Boolean poster = projectJSON.getBoolean("poster");
+                                        int confid = projectJSON.getInt("confid");
                                         JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
                                         String forename = supervisorJSON.getString("forename");
                                         String surname = supervisorJSON.getString("surname");
-                                        projects.add(new Project(projectId, title, "", poster,
-                                                confid, forename, surname, null));
+                                        List<User> students = new ArrayList<>();
+                                        JSONArray listStudents = projectJSON.getJSONArray("students");
+                                        for (int j = 0; j < listStudents.length(); j++) {
+                                            JSONObject student = listStudents.getJSONObject(j);
+                                            students.add(new User(student.getInt("userId"),
+                                                    student.getString("forename"),
+                                                    student.getString("surname")
+                                            ));
+                                        }
+
+                                        projects.add(new Project(projectId, title, descrip, poster,
+                                                confid, forename, surname, students));
                                     }
 
-                                    juries.add(new Jury(juryId, date, null, projects));
-                                }
+                                    DummyData.setMyListProject(projects);
 
-                                Log.d("TEST ", juries.get(0).getProjets().get(0).getTitle());
+                                    Intent intent = new Intent(getApplicationContext(), ProjetActivity.class);
+                                    intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) projects);
+                                    intent.putExtra(USER, user);
 
-                                if(isClickNote == FALSE){
-                                    Intent intent = new Intent(getApplicationContext(),JuriesActivity.class);
-                                    intent.putParcelableArrayListExtra(JURIES, (ArrayList<? extends Parcelable>) juries);
 
                                     startActivity(intent);
                                 } else {
-                                    clickNote(juries);
+
                                 }
-
-                            }else{
-
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                },
+                    },
 
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Log.e("RESULTfailder",volleyError.getMessage()); }
-                } );
-        rq.add(s);
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Log.e("RESULTfailder", volleyError.getMessage());
+                        }
+                    });
+            rq.add(s);
+        }else{
+            Intent intent = new Intent(getApplicationContext(), ProjetActivity.class);
+            intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) DummyData.getMyListProject());
+            intent.putExtra(USER, user);
+            startActivity(intent);
+        }
+    }
+
+    public void clickMyJury(final boolean isClickNote){
+        if(isNetworkAvailable()) {
+
+            final String url = "https://192.168.4.248/pfe/webservice.php?q=MYJUR&user=" + user.getUsername() + "&token=" + user.getToken();
+
+            ServiceWebUtil serviceWeb = new ServiceWebUtil(this);
+
+
+            RequestQueue rq = Volley.newRequestQueue(this, new HurlStack(null, serviceWeb.getSocketFactory()));
+
+
+            JsonObjectRequest s = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject s) {
+
+                            Log.e("RESULT", String.valueOf(s));
+                            try {
+                                if (s.getString("result").equals("OK")) {
+                                    JSONArray juriesJSON = s.getJSONArray("juries");
+                                    List<Jury> juries = new ArrayList<>();
+                                    for (int i = 0; i < juriesJSON.length(); i++) {
+
+                                        JSONObject juryJSON = juriesJSON.getJSONObject(i);
+
+                                        int juryId = juryJSON.getInt("idJury");
+                                        String date = juryJSON.getString("date");
+
+                                        JSONObject infoJSON = juryJSON.getJSONObject("info");
+                                        JSONArray projectsJSON = infoJSON.getJSONArray("projects");
+
+                                        List<Project> projects = new ArrayList<Project>();
+                                        for (int j = 0; j < projectsJSON.length(); j++) {
+                                            JSONObject projectJSON = projectsJSON.getJSONObject(j);
+                                            int projectId = projectJSON.getInt("projectId");
+                                            String title = projectJSON.getString("title");
+                                            int confid = projectJSON.getInt("confid");
+                                            Boolean poster = projectJSON.getBoolean("poster");
+                                            JSONObject supervisorJSON = projectJSON.getJSONObject("supervisor");
+                                            String forename = supervisorJSON.getString("forename");
+                                            String surname = supervisorJSON.getString("surname");
+                                            projects.add(new Project(projectId, title, "", poster,
+                                                    confid, forename, surname, null));
+                                        }
+
+                                        juries.add(new Jury(juryId, date, null, projects));
+                                    }
+
+                                    DummyData.setMyListJuries(juries);
+
+                                    if (isClickNote == FALSE) {
+                                        Intent intent = new Intent(getApplicationContext(), JuriesActivity.class);
+                                        intent.putParcelableArrayListExtra(JURIES, (ArrayList<? extends Parcelable>) juries);
+
+                                        startActivity(intent);
+                                    } else {
+                                        clickNote(juries);
+                                    }
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Log.e("RESULTfailder", volleyError.getMessage());
+                        }
+                    });
+            rq.add(s);
+        }else{
+            if (isClickNote == FALSE) {
+                Intent intent = new Intent(getApplicationContext(), JuriesActivity.class);
+                intent.putParcelableArrayListExtra(JURIES, (ArrayList<? extends Parcelable>) DummyData.getMyListJuries());
+
+                startActivity(intent);
+            } else {
+                clickNote(DummyData.getMyListJuries());
+            }
+        }
     }
 
     public void webServiceNote(final String projectId, final Boolean lastProject, final List<Jury> juries){

@@ -1,43 +1,61 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3.data.src;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.Jury;
+import fr.eseo.dis.pioumansalier.projectandroidi3.data.Note;
 import fr.eseo.dis.pioumansalier.projectandroidi3.data.Project;
-    public class DummyData {
 
+public class DummyData {
 
-        private static List<Project> LIST_PROJECT;
-        private static List<Jury> LIST_JURIES;
+    private static List<Project> LIST_PROJECT = new ArrayList<>();
+    private static List<Jury> LIST_JURIES = new ArrayList<>();
 
-        private static Project[] PROJECT = new Project[]{
-            new Project(1, "OC"),
-                new Project(2, "SE"),
-                new Project(3, "NRJ")
-        };
-        private static Jury[] JURY = new Jury[]{
-                new Jury(1),
-                new Jury(2),
-                new Jury(3)
-        };
+    private static List<Project> MY_LIST_PROJECT = new ArrayList<>();
+    private static List<Jury> MY_LIST_JURIES = new ArrayList<>();
+    private static List<Note> LIST_NOTE = new ArrayList<>();
 
-        private DummyData() {
-        }
+    private DummyData() {
+    }
 
-        public static List<Project> getProjects() {
-            if (LIST_PROJECT == null) {
-                LIST_PROJECT = Arrays.asList(PROJECT);
-            }
-            return LIST_PROJECT;
-        }
-        public static List<Jury> getJuries() {
-            if (LIST_JURIES== null) {
-                LIST_JURIES= Arrays.asList(JURY);
-            }
-            return LIST_JURIES;
-        }
+    public static List<Project> getListProject() {
+        return LIST_PROJECT;
+    }
 
+    public static List<Jury> getListJuries() {
+        return LIST_JURIES;
+    }
 
+    public static List<Project> getMyListProject() {
+        return MY_LIST_PROJECT;
+    }
+
+    public static List<Jury> getMyListJuries() {
+        return MY_LIST_JURIES;
+    }
+
+    public static List<Note> getListNote() {
+        return LIST_NOTE;
+    }
+
+    public static void setListProject(List<Project> listProject) {
+        LIST_PROJECT = listProject;
+    }
+
+    public static void setListJuries(List<Jury> listJuries) {
+        LIST_JURIES = listJuries;
+    }
+
+    public static void setMyListProject(List<Project> myListProject) {
+        MY_LIST_PROJECT = myListProject;
+    }
+
+    public static void setMyListJuries(List<Jury> myListJuries) {
+        MY_LIST_JURIES = myListJuries;
+    }
+
+    public static void setListNote(List<Note> listNote) {
+        LIST_NOTE = listNote;
+    }
 }
