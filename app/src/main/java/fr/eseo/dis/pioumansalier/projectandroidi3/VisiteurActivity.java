@@ -1,11 +1,16 @@
 package fr.eseo.dis.pioumansalier.projectandroidi3;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,37 +37,49 @@ public class VisiteurActivity extends AppCompatActivity{
 
         public static final String PROJET_EXTRA = "project";
         public static final String IMAGE = "image";
-
+    Project project;
         public User user;
         EditText noteVisiteur;
+        Button button;
         EditText commentaireVisiteur;
         private VisiteurAdapter visiteurAdapter;
         TextView errorConnexion;
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.visiteur);
+            Intent intent=getIntent();
+             project=intent.getParcelableExtra(VisiteursProjetsActivity.PROJET_EXTRA);
+            noteVisiteur=findViewById(R.id.note);
+            commentaireVisiteur=findViewById(R.id.commentaire);
 
-
-            RecyclerView recycler = findViewById(R.id.projectListpseudojury);
-            errorConnexion = findViewById(R.id.errorConnexion);
-            recycler.setHasFixedSize(true);
             LinearLayoutManager llm = new LinearLayoutManager(this);
             llm.setOrientation(LinearLayoutManager.VERTICAL);
-            recycler.setLayoutManager(llm);
+            button = findViewById(R.id.button);
+            noteVisiteur.setText("");
+            commentaireVisiteur.setText("");
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    noteVisiteur= findViewById(R.id.note);
+                    project.getNotesPseudoJury().add(noteVisiteur.getText().toString());
+                    commentaireVisiteur=findViewById(R.id.commentaire);
+                    project.getCommentairesPseudoJury().add(commentaireVisiteur.getText().toString());
 
-            visiteurAdapter= new VisiteurAdapter(this);
-            recycler.setAdapter(visiteurAdapter);
-            loadVisiteurDetails();
+
+                }
+            });
+
+
+
+
+
         }
 
-        private void loadVisiteurDetails(){
 
-            List<Project> projects = DummyData.getPseudoJuryPrjects();
-            List<String> posters= DummyData.getPseudoJuryPosters();
-            visiteurAdapter.setProjects(projects);
-            visiteurAdapter.setPoster(posters);
 
-        }
+
+
+
+
        public void clickValidateNote(Project project){
             noteVisiteur= findViewById(R.id.note);
         commentaireVisiteur=findViewById(R.id.commentaire);
