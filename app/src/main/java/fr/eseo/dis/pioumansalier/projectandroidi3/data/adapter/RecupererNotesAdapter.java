@@ -42,7 +42,7 @@ public class RecupererNotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.piou
             public RecupererNotesViewHolder(View view) {
                 super(view);
                 this.view = view;
-                project = view.findViewById(R.id.project);
+                project = view.findViewById(R.id.projectId);
                 note = view.findViewById(R.id.note);
 
 
@@ -58,7 +58,7 @@ public class RecupererNotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.piou
         @NonNull
         @Override
         public  fr.eseo.dis.pioumansalier.projectandroidi3.data.adapter.RecupererNotesAdapter.RecupererNotesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View projetView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recuperer_list, parent, false);
+            View projetView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recuperer_note, parent, false);
             return new fr.eseo.dis.pioumansalier.projectandroidi3.data.adapter.RecupererNotesAdapter.RecupererNotesViewHolder(projetView);
 
         }
