@@ -43,13 +43,12 @@ public class VisiteurActivity extends AppCompatActivity{
             setContentView(R.layout.visiteur);
 
 
-            RecyclerView recycler = findViewById(R.id.projectList5);
+            RecyclerView recycler = findViewById(R.id.projectListpseudojury);
             errorConnexion = findViewById(R.id.errorConnexion);
             recycler.setHasFixedSize(true);
             LinearLayoutManager llm = new LinearLayoutManager(this);
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             recycler.setLayoutManager(llm);
-            Intent intent = getIntent();
 
             visiteurAdapter= new VisiteurAdapter(this);
             recycler.setAdapter(visiteurAdapter);
