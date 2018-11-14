@@ -37,7 +37,7 @@ public class VisiteurActivity extends AppCompatActivity{
 
         public static final String PROJET_EXTRA = "project";
         public static final String IMAGE = "image";
-    Project project;
+        Project project;
         public User user;
         EditText noteVisiteur;
         Button button;
@@ -48,20 +48,21 @@ public class VisiteurActivity extends AppCompatActivity{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.visiteur);
             Intent intent=getIntent();
-             project=intent.getParcelableExtra(VisiteursProjetsActivity.PROJET_EXTRA);
+            project=intent.getParcelableExtra(VisiteursProjetsActivity.PROJET_EXTRA);
             noteVisiteur=findViewById(R.id.note);
             commentaireVisiteur=findViewById(R.id.commentaire);
 
             LinearLayoutManager llm = new LinearLayoutManager(this);
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             button = findViewById(R.id.button);
-            noteVisiteur.setText("");
-            commentaireVisiteur.setText("");
+            noteVisiteur.setText("Note");
+            commentaireVisiteur.setText("Comm");
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    noteVisiteur= findViewById(R.id.note);
+
                     project.getNotesPseudoJury().add(noteVisiteur.getText().toString());
-                    commentaireVisiteur=findViewById(R.id.commentaire);
+                    Log.d("TAG ========", Integer.toString(project.getNotesPseudoJury().size()));
+                    
                     project.getCommentairesPseudoJury().add(commentaireVisiteur.getText().toString());
 
 

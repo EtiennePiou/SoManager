@@ -5,9 +5,11 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +30,7 @@ public class VisiteurAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansal
         private VisiteursProjetsActivity visiteurProjetsActivity;
 
         private List<String> posters = new ArrayList<>();
+        public View projetView;
         public VisiteurAdapter(VisiteursProjetsActivity visiteurProjetsActivity){
             this.visiteurProjetsActivity=visiteurProjetsActivity;
             setProjects(projets);
@@ -51,6 +54,7 @@ public class VisiteurAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansal
             private final TextView projecttitle;
             private final TextView description;
             private final ImageView poster;
+            private final Button noter;
 
 
             public VisiteurViewHolder(View view) {
@@ -59,7 +63,7 @@ public class VisiteurAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansal
                 projecttitle = view.findViewById(R.id.project);
                 description = view.findViewById(R.id.description);
                 poster = view.findViewById(R.id.poster);
-
+                noter= view.findViewById(R.id.noter);
             }
         }
 
@@ -72,7 +76,7 @@ public class VisiteurAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansal
         @NonNull
         @Override
         public VisiteurViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View projetView = LayoutInflater.from(parent.getContext()).inflate(R.layout.visiteur, parent, false);
+            projetView = LayoutInflater.from(parent.getContext()).inflate(R.layout.visiteurs_projects, parent, false);
             return new fr.eseo.dis.pioumansalier.projectandroidi3.data.adapter.VisiteurAdapter.VisiteurViewHolder(projetView);
 
         }
@@ -80,12 +84,13 @@ public class VisiteurAdapter extends RecyclerView.Adapter<fr.eseo.dis.pioumansal
         @Override
         public void onBindViewHolder(@NonNull fr.eseo.dis.pioumansalier.projectandroidi3.data.adapter.VisiteurAdapter.VisiteurViewHolder holder, int position) {
             final Project project = projets.get(position);
-            holder.projecttitle.setText(String.valueOf(project.getTitle()));
+            Log.d("projects",project.getTitle());
+            holder.projecttitle.setText(project.getTitle());
             holder.description.setText(project.getDescrib());
             byte [] encodeByte = Base64.decode(posters.get(position),Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             holder.poster.setImageBitmap(bitmap);
-            holder.view.setOnClickListener(new View.OnClickListener() {
+            holder.noter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     visiteurProjetsActivity.clickValidateNote(project);

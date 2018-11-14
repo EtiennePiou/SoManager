@@ -608,21 +608,11 @@ public class Activity extends AppCompatActivity {
             RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
             s.setRetryPolicy(policy);
             rq.add(s);
-        }else{
-            Intent intent = new Intent(getApplicationContext(),JuriesActivity.class);
-            intent.putParcelableArrayListExtra(PROJECTS, (ArrayList<? extends Parcelable>) DummyData.getListProject());
-            intent.putExtra(USER, user);
-            startActivity(intent);
         }
     }
 
     public void clickRecupererNotes(){
-
+        Intent intent = new Intent(getApplicationContext(),RecupererNotesActivity.class);
+        startActivity(intent);
     }
-
-    //VISITEUR
-    public void clickProjetsVisiteurs(){
-
-    }
-
 }

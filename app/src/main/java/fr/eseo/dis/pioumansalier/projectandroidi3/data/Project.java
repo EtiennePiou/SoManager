@@ -27,8 +27,8 @@ public class Project implements Parcelable {
     String supervisorsurname;
     List<User> students;
 
-    List<String> commentairesPseudoJury;
-    List<String> notesPseudoJury;
+    List<String> commentairesPseudoJury = new ArrayList<>();
+    List<String> notesPseudoJury= new ArrayList<>();
 
     public Project(int projectId, String title, String describ, boolean poster, int confid, String supervisorforename, String supervisorsurname, List<User> students) {
         this.projectId = projectId;

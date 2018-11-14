@@ -2,6 +2,7 @@ package fr.eseo.dis.pioumansalier.projectandroidi3.data.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,12 +69,13 @@ public class RecupererNotesAdapter extends RecyclerView.Adapter<fr.eseo.dis.piou
             final Project project = projets.get(position);
             holder.project.setText(String.valueOf(project.getTitle()));
             Double note=0.0;
+            Log.d("=========", " ");
             for(int i=0;i<project.getNotesPseudoJury().size();i++) {
-                note = note + Double.valueOf(project.getNotesPseudoJury().get(i));
-
+                Log.d("=================", Double.toString(Double.parseDouble(project.getNotesPseudoJury().get(i))));
+                note = note + Double.parseDouble(project.getNotesPseudoJury().get(i));
             }
             note=note/project.getNotesPseudoJury().size();
-            holder.note.setText(String.valueOf(note));
+            holder.note.setText(Double.toString(note));
         }
     }
 
