@@ -13,7 +13,7 @@
         android:orientation="vertical"
         >
         <TextView
-            android:id="@+id/project"
+            android:id="@+id/projecttitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="18sp"
@@ -51,7 +51,7 @@
             android:layout_weight="3"
             android:layout_gravity="center_vertical"
             android:textColor="@color/colorPrimary"
-            android:text="Title"
+            android:text="Noter"
             />
     </LinearLayout>
 
